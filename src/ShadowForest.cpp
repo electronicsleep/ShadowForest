@@ -10,6 +10,8 @@ Released under the BSD license
 #include <iostream>
 #include <string>
 
+#include "Player.hpp"
+
 using namespace std;
 
 
@@ -41,6 +43,10 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
 
 int main(int argc, char ** argv) {
 
+
+    Player player;
+    player.print_name("Chris");
+    player.print_stats();
 
     int x = 0;
     int y = 0;
@@ -105,6 +111,9 @@ int main(int argc, char ** argv) {
         case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
+            case SDLK_SPACE:  x--; break;
+            case SDLK_TAB:  x--; break;
+
             case SDLK_LEFT:  x--; break;
             case SDLK_RIGHT: x++; break;
             case SDLK_UP:    y--; break;
@@ -123,7 +132,11 @@ int main(int argc, char ** argv) {
         //printMsg("Result: " + to_string(loop % 3));
 
         if (loop > 100)
+        {
             loop = 0;
+            player.update_exp();
+            player.print_stats();
+        }
 
         // WIZARD
         SDL_Rect dstrect2 = { x, y, 64, 64 };
