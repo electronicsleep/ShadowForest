@@ -33,7 +33,7 @@ class Player
 
    void update_exp()
    {
-   	exp++;
+    exp++;
     cout << "Player experience is now: " << exp << endl;
    }
 };

@@ -47,6 +47,7 @@ int main(int argc, char ** argv) {
     Player player;
     player.print_name("Chris");
     player.print_stats();
+    bool show_magic = false;
 
     int x = 0;
     int y = 0;
@@ -93,7 +94,9 @@ int main(int argc, char ** argv) {
     }
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
-    SDL_Texture *user = loadTexture("Images/wizard.bmp", ren);
+    SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
+    SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
+
 
     while (!quit)
     {
@@ -111,13 +114,15 @@ int main(int argc, char ** argv) {
         case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
-            case SDLK_SPACE:  x--; break;
-            case SDLK_TAB:  x--; break;
+            case SDLK_SPACE:  show_magic = true; break;
+
+            case SDLK_TAB:  show_magic = false; break;
 
             case SDLK_LEFT:  x--; break;
             case SDLK_RIGHT: x++; break;
             case SDLK_UP:    y--; break;
             case SDLK_DOWN:  y++; break;
+
         }
         break;
         }
@@ -134,14 +139,22 @@ int main(int argc, char ** argv) {
         if (loop > 100)
         {
             loop = 0;
-            player.update_exp();
+            //player.update_exp();
             player.print_stats();
         }
 
         // WIZARD
         SDL_Rect dstrect2 = { x, y, 64, 64 };
-        SDL_RenderCopy(ren, user, NULL, &dstrect2);
+        SDL_RenderCopy(ren, wizard, NULL, &dstrect2);
         SDL_RenderPresent(ren);
+
+        if (show_magic == true) {
+            SDL_Rect dstrect1 = {x, x, 64, 64 };
+            SDL_RenderCopy(ren, magic_shield, NULL, &dstrect1);
+            SDL_RenderPresent(ren);
+        }
+
+
 
         //printMsg("Loop: " + to_string(loop));
     }
