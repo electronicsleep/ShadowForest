@@ -40,6 +40,16 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
     return texture;
 }
 
+bool showMagic(bool show_magic)
+{
+    if (show_magic == false) {
+        show_magic = true;
+    }
+    else if (show_magic == true) {
+        show_magic = false;
+    }
+    return show_magic;
+}
 
 int main(int argc, char ** argv) {
 
@@ -49,8 +59,8 @@ int main(int argc, char ** argv) {
     player.print_stats();
     bool show_magic = false;
 
-    int x = 0;
-    int y = 0;
+    int x = 200;
+    int y = 200;
 
     int loop = 0;
     bool quit = false;
@@ -95,7 +105,7 @@ int main(int argc, char ** argv) {
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
-    SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
+    SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
 
 
     while (!quit)
@@ -111,17 +121,19 @@ int main(int argc, char ** argv) {
             printMsg("QUIT");
             break;
 
+        show_magic = false;
+
         case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
-            case SDLK_SPACE:  show_magic = true; break;
-
-            case SDLK_TAB:  show_magic = false; break;
+            case SDLK_SPACE:  show_magic = showMagic(show_magic); break;
+            case SDLK_TAB:  show_magic = showMagic(show_magic); break;
 
             case SDLK_LEFT:  x--; break;
             case SDLK_RIGHT: x++; break;
             case SDLK_UP:    y--; break;
             case SDLK_DOWN:  y++; break;
+
 
         }
         break;
@@ -149,8 +161,8 @@ int main(int argc, char ** argv) {
         SDL_RenderPresent(ren);
 
         if (show_magic == true) {
-            SDL_Rect dstrect1 = {x, x, 64, 64 };
-            SDL_RenderCopy(ren, magic_shield, NULL, &dstrect1);
+            SDL_Rect dstrect1 = {x-40, y-5, 64, 64};
+            SDL_RenderCopy(ren, magic_sword, NULL, &dstrect1);
             SDL_RenderPresent(ren);
         }
 
