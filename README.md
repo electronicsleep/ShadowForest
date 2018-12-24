@@ -1,3 +1,12 @@
 # ShadowForest
 
-Open Source Game
+Open Source Wizard Game
+
+
+```
+cd src
+make all
+./ShadowForest
+```
+
+https://www.libsdl.org/
