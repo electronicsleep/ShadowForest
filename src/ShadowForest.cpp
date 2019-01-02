@@ -17,6 +17,7 @@ using namespace std;
 
 const int SCREEN_WIDTH  = 640;
 const int SCREEN_HEIGHT = 480;
+const int debug = 0;
 
 void printMsg(string msg){
     cout << msg << endl;
@@ -128,8 +129,10 @@ int main(int argc, char ** argv) {
         }
 
         loop++;
-        cout << "loop: " << loop << endl;
-        cout << "show_magic: " << show_magic << endl;
+        if (debug == 1) {
+            cout << "loop: " << loop << endl;
+            cout << "show_magic: " << show_magic << endl;
+        }
 
         SDL_RenderClear(ren);
 
@@ -142,7 +145,7 @@ int main(int argc, char ** argv) {
         if (loop > 100)
         {
             loop = 0;
-            //player.update_exp();
+            player.update_health(10);
             player.print_stats();
         }
 
