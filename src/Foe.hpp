@@ -1,9 +1,15 @@
-
 using namespace std;
 
 class Foe
 {
  public:
+
+  struct Foe_Location {
+    int x, y = 80;
+  };
+
+  Foe_Location foe_loc;
+
   string player_name = "Foe1";
   string player_type = "Zombie";
   int health = 100;
@@ -15,6 +21,13 @@ class Foe
   void is_alive(Foe* foe)
   {
     cout << "Foe is alive";
+  }
+
+  Foe_Location return_location()
+  {
+    foe_loc.x++;
+    foe_loc.y++;
+    return foe_loc;
   }
 
   void print_name(const char* name)
@@ -32,13 +45,13 @@ class Foe
     cout << "Foe intelligence is " << intelligence << endl;
   }
 
-   void update_exp()
+  void update_exp()
   {
     exp++;
     cout << "Foe experience is now: " << exp << endl;
   }
 
-   void update_health(int amount)
+  void update_health(int amount)
   {
     health = health - amount;
     cout << "Foe health is now: " << health << endl;
@@ -47,4 +60,5 @@ class Foe
         cout << "Foe has died... " << endl;
    }
   }
+
 };

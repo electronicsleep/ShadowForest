@@ -11,12 +11,13 @@ Released under the BSD license
 #include <string>
 
 #include "Player.hpp"
+#include "Foe.hpp"
 
 using namespace std;
 
 
-const int SCREEN_WIDTH  = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH  = 800;
+const int SCREEN_HEIGHT = 600;
 const int debug = 0;
 
 void printMsg(string msg){
@@ -45,8 +46,11 @@ int main(int argc, char ** argv) {
 
 
     Player player;
+    Foe foe;
     player.print_name("Chris");
+    foe.print_name("Zombie1");
     player.print_stats();
+    foe.print_stats();
     string show_magic = "";
 
     int x = 200;
@@ -95,6 +99,7 @@ int main(int argc, char ** argv) {
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
+    SDL_Texture *zombie = loadTexture("Images/zombie.bmp", ren);
     SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", ren);
     SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
@@ -102,7 +107,7 @@ int main(int argc, char ** argv) {
 
     while (!quit)
     {
-        SDL_Delay(20);
+        SDL_Delay(1);
         SDL_PollEvent(&event);
 
 
@@ -119,10 +124,10 @@ int main(int argc, char ** argv) {
             case SDLK_SPACE:  show_magic = "magic_sword"; break;
             case SDLK_TAB:  show_magic = "magic_shield"; break;
 
-            case SDLK_LEFT:  x--; show_magic = ""; break;
-            case SDLK_RIGHT: x++; show_magic = ""; break;
-            case SDLK_UP:    y--; show_magic = ""; break;
-            case SDLK_DOWN:  y++; show_magic = ""; break;
+            case SDLK_LEFT:  x = x - 5; show_magic = ""; break;
+            case SDLK_RIGHT: x = x + 5; show_magic = ""; break;
+            case SDLK_UP:    y = y - 5; show_magic = ""; break;
+            case SDLK_DOWN:  y = y + 5; show_magic = ""; break;
 
         }
         break;
@@ -145,8 +150,9 @@ int main(int argc, char ** argv) {
         if (loop > 100)
         {
             loop = 0;
-            player.update_health(10);
+            //player.update_health(10);
             player.print_stats();
+            foe.print_stats();
         }
 
         if (show_magic == "magic_sword") {
@@ -167,9 +173,24 @@ int main(int argc, char ** argv) {
 
         } else {
 
-            // Wizard Wait
+            // Wizard
             SDL_Rect dstrect2 = { x, y, 64, 64 };
             SDL_RenderCopy(ren, wizard, NULL, &dstrect2);
+
+            // Foe
+            //foe_location = return_location()
+            Foe::Foe_Location foe_loc2;
+            foe_loc2 = foe.return_location();
+            SDL_Rect dstrect3 = { foe_loc2.x, foe_loc2.y, 64, 64 };
+            SDL_RenderCopy(ren, zombie, NULL, &dstrect3);
+
+            //cout << " x " << foe_loc2.x << " x " << x << endl;
+            //cout << " y " << foe_loc2.y << " y " << y << endl;
+            if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50)
+            {
+                cout << " **** damage ***" << endl;
+                player.update_health(10);
+            }
         }
         SDL_RenderPresent(ren);
     }
