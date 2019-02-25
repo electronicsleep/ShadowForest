@@ -42,7 +42,7 @@ class Player
     health = health - amount;
     cout << "Player health is now: " << health << endl;
 
-    if (health < 0) {
+    if (health <= 0) {
         cout << "Player has died... " << endl;
         exit(1);
    }
