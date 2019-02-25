@@ -1,9 +1,6 @@
-/*
-Author: Chris Robertson https://github.com/electronicsleep
-Date: 11/27/2017
-Purpose: C++ and SDL2
-Released under the BSD license
-*/
+// Author: https://github.com/electronicsleep
+// Purpose: Shadow Forest
+// Released under the BSD license
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>

@@ -1,3 +1,7 @@
+// Author: https://github.com/electronicsleep
+// Purpose: Shadow Forest
+// Released under the BSD license
+
 using namespace std;
 
 class Player
