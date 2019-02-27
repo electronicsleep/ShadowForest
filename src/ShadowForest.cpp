@@ -12,23 +12,21 @@
 
 using namespace std;
 
-
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 600;
 const int debug = 0;
 
-void printMsg(string msg){
+void printMsg(string msg) {
     cout << msg << endl;
 }
 
-
-SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
+SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
     SDL_Texture *texture = NULL;
     SDL_Surface *loadedImage = SDL_LoadBMP(file.c_str());
-    if (loadedImage != NULL){
+    if (loadedImage != NULL) {
         texture = SDL_CreateTextureFromSurface(ren, loadedImage);
         SDL_FreeSurface(loadedImage);
-        if (texture == NULL){
+        if (texture == NULL) {
             printMsg("Error: CreateTextureFromSurface");
             exit(1);
         }
@@ -40,8 +38,6 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
 }
 
 int main(int argc, char ** argv) {
-
-
     Player player;
     Foe foe;
     player.print_name("Chris");
@@ -101,33 +97,29 @@ int main(int argc, char ** argv) {
     SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
 
-
-    while (!quit)
-    {
+    while (!quit) {
         SDL_Delay(1);
         SDL_PollEvent(&event);
 
 
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            quit = true;
-            printMsg("QUIT");
+        switch (event.type) {
+            case SDL_QUIT:
+                quit = true;
+                printMsg("QUIT");
+                break;
+
+            case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+                case SDLK_SPACE:  show_magic = "magic_sword"; break;
+                case SDLK_TAB:  show_magic = "magic_shield"; break;
+
+                case SDLK_LEFT:  x = x - 5; show_magic = ""; break;
+                case SDLK_RIGHT: x = x + 5; show_magic = ""; break;
+                case SDLK_UP:    y = y - 5; show_magic = ""; break;
+                case SDLK_DOWN:  y = y + 5; show_magic = ""; break;
+
+            }
             break;
-
-        case SDL_KEYDOWN:
-        switch (event.key.keysym.sym)
-        {
-            case SDLK_SPACE:  show_magic = "magic_sword"; break;
-            case SDLK_TAB:  show_magic = "magic_shield"; break;
-
-            case SDLK_LEFT:  x = x - 5; show_magic = ""; break;
-            case SDLK_RIGHT: x = x + 5; show_magic = ""; break;
-            case SDLK_UP:    y = y - 5; show_magic = ""; break;
-            case SDLK_DOWN:  y = y + 5; show_magic = ""; break;
-
-        }
-        break;
         }
 
         loop++;
@@ -138,16 +130,11 @@ int main(int argc, char ** argv) {
 
         SDL_RenderClear(ren);
 
-
         // Background
         SDL_RenderCopy(ren, bg, NULL, NULL);
 
-        //printMsg("Result: " + to_string(loop % 3));
-
-        if (loop > 100)
-        {
+        if (loop > 100) {
             loop = 0;
-            //player.update_health(10);
             player.print_stats();
             foe.print_stats();
         }
@@ -169,13 +156,11 @@ int main(int argc, char ** argv) {
             SDL_RenderCopy(ren, wizard_cast, NULL, &dstrect2);
 
         } else {
-
             // Wizard
             SDL_Rect dstrect2 = { x, y, 64, 64 };
             SDL_RenderCopy(ren, wizard, NULL, &dstrect2);
 
             // Foe
-            //foe_location = return_location()
             Foe::Foe_Location foe_loc2;
             foe_loc2 = foe.return_location();
             SDL_Rect dstrect3 = { foe_loc2.x, foe_loc2.y, 64, 64 };
@@ -183,8 +168,7 @@ int main(int argc, char ** argv) {
 
             //cout << " x " << foe_loc2.x << " x " << x << endl;
             //cout << " y " << foe_loc2.y << " y " << y << endl;
-            if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50)
-            {
+            if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
                 cout << " **** damage ***" << endl;
                 player.update_health(10);
             }

@@ -4,8 +4,7 @@
 
 using namespace std;
 
-class Foe
-{
+class Foe {
  public:
 
   struct Foe_Location {
@@ -13,7 +12,6 @@ class Foe
   };
 
   Foe_Location foe_loc;
-
   string player_name = "Foe1";
   string player_type = "Zombie";
   int health = 100;
@@ -22,25 +20,29 @@ class Foe
   int dex = 0;
   int intelligence = 0;
 
-  void is_alive(Foe* foe)
-  {
+
+
+  void is_alive(Foe* foe) {
     cout << "Foe is alive";
   }
 
-  Foe_Location return_location()
-  {
+  Foe_Location return_location() {
     foe_loc.x++;
     foe_loc.y++;
+    if (foe_loc.x > 500) {
+      foe_loc.x = 0;
+      int y2;
+      y2 = (rand()%300)+1;
+      foe_loc.y = y2;
+    }
     return foe_loc;
   }
 
-  void print_name(const char* name)
-  {
+  void print_name(const char* name) {
     cout << "Foe name is " << name << endl;
   }
 
-  void print_stats()
-  {
+  void print_stats() {
     cout << "###### Stats ######" << endl;
     cout << "Foe health is " << health << endl;
     cout << "Foe experience is " << exp << endl;
@@ -49,14 +51,12 @@ class Foe
     cout << "Foe intelligence is " << intelligence << endl;
   }
 
-  void update_exp()
-  {
+  void update_exp() {
     exp++;
     cout << "Foe experience is now: " << exp << endl;
   }
 
-  void update_health(int amount)
-  {
+  void update_health(int amount) {
     health = health - amount;
     cout << "Foe health is now: " << health << endl;
 
