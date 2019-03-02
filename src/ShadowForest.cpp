@@ -40,8 +40,12 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
 int main(int argc, char ** argv) {
     Player player;
     Foe foe;
+    Foe foe2;
+    foe.set_location(300, 300);
+    foe2.set_location(100, 100);
     player.print_name("Chris");
     foe.print_name("Zombie1");
+    foe2.print_name("Zombie2");
     player.print_stats();
     foe.print_stats();
     string show_magic = "";
@@ -96,6 +100,7 @@ int main(int argc, char ** argv) {
     SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", ren);
     SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
+    SDL_Texture *damage = loadTexture("Images/damage.bmp", ren);
 
     while (!quit) {
         SDL_Delay(1);
@@ -140,37 +145,52 @@ int main(int argc, char ** argv) {
         }
 
         if (show_magic == "magic_sword") {
-            SDL_Rect dstrect1 = {x-40, y-5, 64, 64};
-            SDL_RenderCopy(ren, magic_sword, NULL, &dstrect1);
+            SDL_Rect magic_sword_bmp = {x-40, y-5, 64, 64};
+            SDL_RenderCopy(ren, magic_sword, NULL, &magic_sword_bmp);
 
             // Wizard Cast
-            SDL_Rect dstrect2 = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, wizard_cast, NULL, &dstrect2);
+            SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
+            SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
 
         } else if (show_magic == "magic_shield") {
-            SDL_Rect dstrect1 = {x-40, y-5, 64, 64};
-            SDL_RenderCopy(ren, magic_shield, NULL, &dstrect1);
+            SDL_Rect magic_shield_bmp = {x-40, y-5, 64, 64};
+            SDL_RenderCopy(ren, magic_shield, NULL, &magic_shield_bmp);
 
             // Wizard Cast
-            SDL_Rect dstrect2 = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, wizard_cast, NULL, &dstrect2);
+            SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
+            SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
 
         } else {
             // Wizard
-            SDL_Rect dstrect2 = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, wizard, NULL, &dstrect2);
+            SDL_Rect wizard_bmp = { x, y, 64, 64 };
+            SDL_RenderCopy(ren, wizard, NULL, &wizard_bmp);
 
-            // Foe
+            // Foe1
+            Foe::Foe_Location foe_loc1;
+            foe_loc1 = foe.return_location();
+            SDL_Rect zombie1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
+            SDL_RenderCopy(ren, zombie, NULL, &zombie1_bmp);
+
+            // Foe2
             Foe::Foe_Location foe_loc2;
-            foe_loc2 = foe.return_location();
-            SDL_Rect dstrect3 = { foe_loc2.x, foe_loc2.y, 64, 64 };
-            SDL_RenderCopy(ren, zombie, NULL, &dstrect3);
+            foe_loc2 = foe2.return_location();
+            SDL_Rect zombie2_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
+            SDL_RenderCopy(ren, zombie, NULL, &zombie2_bmp);
 
             //cout << " x " << foe_loc2.x << " x " << x << endl;
             //cout << " y " << foe_loc2.y << " y " << y << endl;
             if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
-                cout << " **** damage ***" << endl;
-                player.update_health(10);
+                cout << " **** damage foe2 ***" << endl;
+                SDL_Rect damage_bmp = { 0, 0, 64, 64 };
+                SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+                player.update_health(2);
+            }
+
+            if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
+                cout << " **** damage foe1 ***" << endl;
+                SDL_Rect damage_bmp = { 0, 0, 64, 64 };
+                SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+                player.update_health(2);
             }
         }
         SDL_RenderPresent(ren);

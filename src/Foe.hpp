@@ -8,7 +8,7 @@ class Foe {
  public:
 
   struct Foe_Location {
-    int x, y = 80;
+    int x, y = 0;
   };
 
   Foe_Location foe_loc;
@@ -27,8 +27,7 @@ class Foe {
   }
 
   Foe_Location return_location() {
-    foe_loc.x++;
-    foe_loc.y++;
+    foe_loc = move_diagnal();
     if (foe_loc.x > 500) {
       foe_loc.x = 0;
       int y2;
@@ -36,6 +35,17 @@ class Foe {
       foe_loc.y = y2;
     }
     return foe_loc;
+  }
+
+  Foe_Location move_diagnal(){
+    foe_loc.x++;
+    foe_loc.y++;
+    return foe_loc;
+  }
+
+  void set_location(int x, int y) {
+    foe_loc.x = x;
+    foe_loc.y = y;
   }
 
   void print_name(const char* name) {
