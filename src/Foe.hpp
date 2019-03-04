@@ -20,25 +20,43 @@ class Foe {
   int dex = 0;
   int intelligence = 0;
 
-
-
   void is_alive(Foe* foe) {
     cout << "Foe is alive";
   }
 
+  Foe_Location reset_foe() {
+   foe_loc.x = 0;
+   foe_loc.y = 0;
+   return foe_loc;
+  }
+
+
   Foe_Location return_location() {
-    foe_loc = move_diagnal();
-    if (foe_loc.x > 500) {
+
+    foe_loc = move_diagonal();
+    //foe_loc = move_down();
+
+    //cout << "Foe loc x " << foe_loc.x << endl;
+    //cout << "Foe loc y " << foe_loc.y << endl;
+    if (foe_loc.x > 500 or foe_loc.y > 500) {
+      //int x2;
+      //x2 = (rand()%1000)+1;
       foe_loc.x = 0;
       int y2;
-      y2 = (rand()%300)+1;
+      y2 = (rand()%1000)+1;
+      cout << "rand y " << y2 << endl;
       foe_loc.y = y2;
     }
     return foe_loc;
   }
 
-  Foe_Location move_diagnal(){
+  Foe_Location move_diagonal(){
     foe_loc.x++;
+    foe_loc.y++;
+    return foe_loc;
+  }
+
+  Foe_Location move_down(){
     foe_loc.y++;
     return foe_loc;
   }
@@ -66,13 +84,15 @@ class Foe {
     cout << "Foe experience is now: " << exp << endl;
   }
 
-  void update_health(int amount) {
+  int update_health(int amount) {
     health = health - amount;
     cout << "Foe health is now: " << health << endl;
 
     if (health < 0) {
         cout << "Foe has died... " << endl;
+        return 1;
    }
+  return 0;
   }
 
 };
