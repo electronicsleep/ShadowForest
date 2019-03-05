@@ -8,8 +8,9 @@ cd src
 make all
 ./ShadowForest
 
--> arrow key move player
+-> arrow key moves player
 -> space bar to cast spell
+-> destroy monsters before time is up
 
 ```
 
