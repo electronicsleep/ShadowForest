@@ -6,7 +6,7 @@ using namespace std;
 
 class Player {
  public:
-  string player_name = "Chris";
+  string player_name = "Logan";
   string player_type = "Wizard";
   int health = 100;
   int exp = 0;
