@@ -44,13 +44,11 @@ int main(int argc, char ** argv) {
     Foe foe2;
     foe.set_location(300, 300);
     foe2.set_location(100, 100);
-    player.print_name("Chris");
+    player.print_name("Logan");
     foe.print_name("Zombie1");
     foe2.print_name("Zombie2");
-    int foes_destroy = 0;
+    int foes_destroyed = 0;
     int time = 0;
-    //player.print_stats();
-    //foe.print_stats();
     string show_magic = "";
 
     int x = 200;
@@ -144,8 +142,6 @@ int main(int argc, char ** argv) {
 
         if (loop > 100) {
             loop = 0;
-            //player.print_stats();
-            //foe.print_stats();
         }
 
         // Foe1
@@ -174,11 +170,12 @@ int main(int argc, char ** argv) {
                 SDL_Rect damage_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
                 SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
 
-                    int foe_death;
-                    foe_death = foe.update_health(5);
-                    if (foe_death == 1) {
-                        foes_destroy++;
-                        cout << " --> foes_destroy: " << foes_destroy << endl;
+                    int foe_destroyed;
+                    foe_destroyed = foe.update_health(5);
+                    if (foe_destroyed == 1) {
+                        foes_destroyed++;
+                        player.print_foes_destroyed(foes_destroyed);
+
                         foe.reset_foe();
                         foe.health = 0;
                     }
@@ -195,11 +192,12 @@ int main(int argc, char ** argv) {
                 SDL_Rect damage_bmp = { foe_loc2.y, foe_loc2.x, 64, 64 };
                 SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
 
-                    int foe_death;
-                    foe_death = foe.update_health(5);
-                    if (foe_death == 1) {
-                        foes_destroy++;
-                        cout << " --> foes_destroy: " << foes_destroy << endl;
+                    int foe_destroyed;
+                    foe_destroyed = foe.update_health(5);
+                    if (foe_destroyed == 1) {
+                        foes_destroyed++;
+                        player.print_foes_destroyed(foes_destroyed);
+
                         foe2.reset_foe();
                         foe2.health = 0;
                     }
@@ -238,6 +236,7 @@ int main(int argc, char ** argv) {
             cout << " **** damage player ***" << endl;
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+            player.print_foes_destroyed(foes_destroyed);
             player.update_health(2);
         }
 
@@ -245,6 +244,7 @@ int main(int argc, char ** argv) {
             cout << " **** damage player ***" << endl;
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+            player.print_foes_destroyed(foes_destroyed);
             player.update_health(2);
         }
 

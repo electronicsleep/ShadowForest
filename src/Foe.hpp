@@ -30,14 +30,10 @@ class Foe {
   }
 
   Foe_Location respawn_foe() {
-   int x2;
-   x2 = (rand()%1000)+1;
-   cout << "rand x " << x2 << endl;
-   foe_loc.x = 0;
-   int y2;
-   y2 = (rand()%1000)+1;
-   cout << "rand y " << y2 << endl;
-   foe_loc.y = y2;
+   foe_loc.x = rand()%1000+1;
+   foe_loc.y = rand()%1000+1;
+   //cout << "rand x " << x2 << endl;
+   //cout << "rand y " << y2 << endl;
    return foe_loc;
   }
 
@@ -46,7 +42,6 @@ class Foe {
 
     foe_loc = move_diagonal();
     //foe_loc = move_down();
-
     //cout << "Foe loc x " << foe_loc.x << endl;
     //cout << "Foe loc y " << foe_loc.y << endl;
     if (foe_loc.x > 500 or foe_loc.y > 500) {

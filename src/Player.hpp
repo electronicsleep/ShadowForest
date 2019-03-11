@@ -31,6 +31,10 @@ class Player {
     cout << "Player intelligence is " << intelligence << endl;
   }
 
+  void print_foes_destroyed(int foes_destroyed) {
+    cout << " **** Foes Destroyed: " << foes_destroyed << endl;
+  }
+
   void update_exp() {
     exp++;
     cout << "Player experience is now: " << exp << endl;
