@@ -131,7 +131,7 @@ int main(int argc, char ** argv) {
 
         loop++;
         if (debug == 1) {
-            cout << "loop: " << loop << endl;
+            cout << "loop increment: " << loop << endl;
             cout << "show_magic: " << show_magic << endl;
         }
 
