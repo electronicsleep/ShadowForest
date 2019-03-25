@@ -96,6 +96,7 @@ int main(int argc, char ** argv) {
     }
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
+    SDL_Texture *shadow_forest = loadTexture("Images/shadow-forest.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
     SDL_Texture *zombie = loadTexture("Images/zombie.bmp", ren);
     SDL_Texture *zombie_hit = loadTexture("Images/zombie-hit.bmp", ren);
@@ -151,6 +152,9 @@ int main(int argc, char ** argv) {
         // Foe2
         Foe::Foe_Location foe_loc2;
         foe_loc2 = foe2.return_location();
+
+        SDL_Rect shadow_forest_bmp = { 0, 500, 200, 200 };
+        SDL_RenderCopy(ren, shadow_forest, NULL, &shadow_forest_bmp);
 
         if (show_magic == "magic_sword") {
             SDL_Rect magic_sword_bmp = {x-40, y-5, 64, 64};
