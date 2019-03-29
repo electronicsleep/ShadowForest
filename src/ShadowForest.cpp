@@ -38,6 +38,14 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
     return texture;
 }
 
+void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
+    SDL_Rect dst;
+    dst.x = x;
+    dst.y = y;
+    SDL_QueryTexture(tex, NULL, NULL, &dst.w, &dst.h);
+    SDL_RenderCopy(ren, tex, NULL, &dst);
+}
+
 int main(int argc, char ** argv) {
     Player player;
     Foe foe;
@@ -48,6 +56,7 @@ int main(int argc, char ** argv) {
     foe.print_name("Zombie1");
     foe2.print_name("Zombie2");
     int foes_destroyed = 0;
+    int foes_missed = 0;
     int time = 0;
     string show_magic = "";
 
@@ -86,6 +95,7 @@ int main(int argc, char ** argv) {
         return 1;
     }
 
+    //Required for SDL_RenderCopy
     SDL_Renderer *ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (ren == NULL) {
         SDL_DestroyWindow(window);
@@ -148,31 +158,41 @@ int main(int argc, char ** argv) {
         // Foe1
         Foe::Foe_Location foe_loc1;
         foe_loc1 = foe.return_location();
+        if (foe_loc1.x > 500 or foe_loc1.y > 500) {
+          foe_loc1 = foe.respawn_foe();
+          foes_missed++;
+          cout << "foes_missed: " << foes_missed << endl;
+        }
 
         // Foe2
         Foe::Foe_Location foe_loc2;
         foe_loc2 = foe2.return_location();
+        if (foe_loc2.x > 500 or foe_loc2.y > 500) {
+          foe_loc2 = foe2.respawn_foe();
+          foes_missed++;
+          cout << "foes_missed: " << foes_missed << endl;
+        }
 
         SDL_Rect shadow_forest_bmp = { 0, 500, 200, 200 };
         SDL_RenderCopy(ren, shadow_forest, NULL, &shadow_forest_bmp);
 
         if (show_magic == "magic_sword") {
-            SDL_Rect magic_sword_bmp = {x-40, y-5, 64, 64};
-            SDL_RenderCopy(ren, magic_sword, NULL, &magic_sword_bmp);
-
+            // Wizard Magic
+            renderTexture(magic_sword, ren, x-40, y-5);
             // Wizard Cast
-            SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
+            renderTexture(wizard_cast, ren, x, y);
 
             if (foe_loc1.x < x + 60 && foe_loc1.y < y + 60 && foe_loc1.x > x - 60 && foe_loc1.y > y - 60) {
 
                 cout << " **** damage foe ***" << endl;
-                SDL_Rect zombie_hit_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
-                SDL_RenderCopy(ren, zombie_hit, NULL, &zombie_hit_bmp);
+                //SDL_Rect zombie_hit_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
+                //SDL_RenderCopy(ren, zombie_hit, NULL, &zombie_hit_bmp);
+                renderTexture(zombie_hit, ren, foe_loc1.y, foe_loc1.x);
 
-                // Red Box
-                SDL_Rect damage_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
-                SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+                // Red Box Damage
+                //SDL_Rect damage_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
+                //SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+                renderTexture(damage, ren, foe_loc1.y, foe_loc1.x);
 
                     int foe_destroyed;
                     foe_destroyed = foe.update_health(5);
@@ -241,7 +261,7 @@ int main(int argc, char ** argv) {
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2);
+            player.update_health(2, foes_missed, foes_destroyed);
         }
 
         if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
@@ -249,7 +269,7 @@ int main(int argc, char ** argv) {
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2);
+            player.update_health(2, foes_missed, foes_destroyed);
         }
 
         time++;

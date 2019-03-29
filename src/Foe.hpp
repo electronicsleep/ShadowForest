@@ -30,29 +30,41 @@ class Foe {
   }
 
   Foe_Location respawn_foe() {
-   foe_loc.x = rand()%1000+1;
-   foe_loc.y = rand()%1000+1;
-   //cout << "rand x " << x2 << endl;
-   //cout << "rand y " << y2 << endl;
+   foe_loc.x = rand()%400;
+   foe_loc.y = rand()%400;
+
+   //cout << "respawn: x " << foe_loc.x << endl;
+   //cout << "respawn: y " << foe_loc.y << endl;
    return foe_loc;
   }
 
 
   Foe_Location return_location() {
-
+    int decide_move = rand();
+    //cout << "decide_move" << decide_move << endl;
+    //cout << decide_move % 3 << endl;
+    if (decide_move % 3 == 0) {
+    //cout << "move_diagonal" << endl;
     foe_loc = move_diagonal();
-    //foe_loc = move_down();
+    } else {
+    //cout << "move_diagonal2" << endl;
+    foe_loc = move_diagonal2();
+    }
     //cout << "Foe loc x " << foe_loc.x << endl;
     //cout << "Foe loc y " << foe_loc.y << endl;
-    if (foe_loc.x > 500 or foe_loc.y > 500) {
-      foe_loc = respawn_foe();
-    }
+
     return foe_loc;
   }
 
   Foe_Location move_diagonal(){
     foe_loc.x++;
     foe_loc.y++;
+    return foe_loc;
+  }
+
+  Foe_Location move_diagonal2(){
+    foe_loc.x += 2;
+    foe_loc.y += 2;
     return foe_loc;
   }
 

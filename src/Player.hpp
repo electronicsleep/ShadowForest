@@ -40,13 +40,20 @@ class Player {
     cout << "Player experience is now: " << exp << endl;
   }
 
-  void update_health(int amount) {
+  void update_health(int amount, int foes_missed, int foes_destroyed) {
     health = health - amount;
     cout << "Player health is now: " << health << endl;
 
     if (health <= 0) {
-        cout << "Player has died... " << endl;
-        exit(1);
+      cout << "Player has died... " << endl;
+      cout << " **** Foes Destroyed: " << foes_destroyed << endl;
+      cout << " **** Foes Missed: " << foes_missed << endl;
+      if (foes_destroyed > foes_missed) {
+        cout << "Seems like you did ok." << endl;
+      } else {
+        cout << "Didn't do so good, try again. " << endl;
+      }
+      exit(1);
    }
   }
 };
