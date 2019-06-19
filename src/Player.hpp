@@ -49,9 +49,9 @@ class Player {
       cout << " **** Foes Destroyed: " << foes_destroyed << endl;
       cout << " **** Foes Missed: " << foes_missed << endl;
       if (foes_destroyed > foes_missed) {
-        cout << "Seems like you did ok." << endl;
+        cout << "You defeated by your foes, nice work." << endl;
       } else {
-        cout << "Didn't do so good, try again. " << endl;
+        cout << "You where defeated by your foes." << endl;
       }
       exit(1);
    }
