@@ -16,3 +16,11 @@ make all
 ```
 
 https://www.libsdl.org/
+
+
+TODO:
+* Start screen
+* Health bar graphic
+* Game over screen, restart
+* Enemy to come from any direction
+* Many game tiles, open world
