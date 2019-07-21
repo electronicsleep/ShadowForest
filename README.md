@@ -4,23 +4,25 @@ Open Source Wizard Game created with C++ and SDL2
 
 Creating a simple game to learn C++ and SDL2
 
-How to play
--> Arrow keys moves player
--> Space bar to cast spell
--> Destroy monsters before time is up
-
+Installation
 ```
 cd src
 make all
 ./ShadowForest
 ```
+How to play
+-> Arrow keys moves player
+-> Space bar to cast spell
+-> Destroy monsters before time is up
 
-https://www.libsdl.org/
-
+Development
+* Messsage me if interested
 
 TODO:
-* Start screen
-* Health bar graphic
+* Start screen, top scores
 * Game over screen, restart
 * Enemy to come from any direction
-* Many game tiles, open world
+* Health bar graphic and move animation
+* Many game tiles, different environments
+
+https://www.libsdl.org/
