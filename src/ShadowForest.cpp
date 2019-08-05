@@ -66,6 +66,8 @@ int main(int argc, char ** argv) {
     int loop = 0;
     bool quit = false;
 
+    int start_game = 0;
+
     string errorMsg = "";
 
     SDL_Event event;
@@ -128,7 +130,7 @@ int main(int argc, char ** argv) {
 
             case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-                case SDLK_SPACE:  show_magic = "magic_sword"; break;
+                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = 1; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
                 case SDLK_LEFT:  x = x - 5; show_magic = ""; break;
@@ -154,6 +156,9 @@ int main(int argc, char ** argv) {
         if (loop > 100) {
             loop = 0;
         }
+
+
+        if (start_game == 1) {
 
         // Foe1
         Foe::Foe_Location foe_loc1;
@@ -195,7 +200,7 @@ int main(int argc, char ** argv) {
                 renderTexture(damage, ren, foe_loc1.y, foe_loc1.x);
 
                     int foe_destroyed;
-                    foe_destroyed = foe.update_health(5);
+                    foe_destroyed = foe.update_health(1);
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
@@ -212,12 +217,12 @@ int main(int argc, char ** argv) {
                 SDL_Rect zombie_hit_bmp = { foe_loc2.y, foe_loc2.x, 64, 64 };
                 SDL_RenderCopy(ren, zombie_hit, NULL, &zombie_hit_bmp);
 
-                // Red Box
+                // Red Damage Box
                 SDL_Rect damage_bmp = { foe_loc2.y, foe_loc2.x, 64, 64 };
                 SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
 
                     int foe_destroyed;
-                    foe_destroyed = foe.update_health(5);
+                    foe_destroyed = foe.update_health(2);
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
@@ -261,7 +266,7 @@ int main(int argc, char ** argv) {
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed);
+            player.update_health(2, foes_missed, foes_destroyed, start_game);
         }
 
         if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
@@ -269,8 +274,9 @@ int main(int argc, char ** argv) {
             SDL_Rect damage_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed);
+            player.update_health(2, foes_missed, foes_destroyed, start_game);
         }
+    }
 
         time++;
         SDL_RenderPresent(ren);

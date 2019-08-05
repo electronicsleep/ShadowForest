@@ -40,7 +40,7 @@ class Player {
     cout << "Player experience is now: " << exp << endl;
   }
 
-  void update_health(int amount, int foes_missed, int foes_destroyed) {
+  void update_health(int amount, int foes_missed, int foes_destroyed, int &start_game) {
     health = health - amount;
     cout << "Player health is now: " << health << endl;
 
@@ -53,7 +53,8 @@ class Player {
       } else {
         cout << "You where defeated by your foes." << endl;
       }
-      exit(1);
+      start_game = false;
+      health = 100;
    }
   }
 };
