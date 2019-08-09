@@ -17,3 +17,8 @@ make all
 ```
 
 https://www.libsdl.org/
+
+Todo
+* Opening graphic
+* High scores
+* Enemy types
