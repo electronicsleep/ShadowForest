@@ -108,7 +108,7 @@ int main(int argc, char ** argv) {
     }
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
-    SDL_Texture *shadow_forest = loadTexture("Images/shadow-forest.bmp", ren);
+    SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
     SDL_Texture *zombie = loadTexture("Images/zombie.bmp", ren);
     SDL_Texture *zombie_hit = loadTexture("Images/zombie-hit.bmp", ren);
@@ -153,10 +153,14 @@ int main(int argc, char ** argv) {
         // Background
         SDL_RenderCopy(ren, bg, NULL, NULL);
 
+        if (start_game == 0) {
+          SDL_Rect shadow_forest_title_logo_bmp = { 0, 200, 300, 400 };
+          SDL_RenderCopy(ren, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
+        }
+
         if (loop > 100) {
             loop = 0;
         }
-
 
         if (start_game == 1) {
 
@@ -177,9 +181,6 @@ int main(int argc, char ** argv) {
           foes_missed++;
           cout << "foes_missed: " << foes_missed << endl;
         }
-
-        SDL_Rect shadow_forest_bmp = { 0, 500, 200, 200 };
-        SDL_RenderCopy(ren, shadow_forest, NULL, &shadow_forest_bmp);
 
         if (show_magic == "magic_sword") {
             // Wizard Magic
