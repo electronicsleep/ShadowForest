@@ -63,6 +63,8 @@ int main(int argc, char ** argv) {
     int x = 200;
     int y = 200;
 
+    int weapon_offset = 80;
+
     int loop = 0;
     bool quit = false;
 
@@ -111,7 +113,6 @@ int main(int argc, char ** argv) {
     SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
     SDL_Texture *zombie = loadTexture("Images/zombie.bmp", ren);
-    SDL_Texture *zombie_hit = loadTexture("Images/zombie-hit.bmp", ren);
     SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", ren);
     SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
@@ -120,7 +121,6 @@ int main(int argc, char ** argv) {
     while (!quit) {
         SDL_Delay(1);
         SDL_PollEvent(&event);
-
 
         switch (event.type) {
             case SDL_QUIT:
@@ -187,18 +187,11 @@ int main(int argc, char ** argv) {
             renderTexture(magic_sword, ren, x-40, y-5);
             // Wizard Cast
             renderTexture(wizard_cast, ren, x, y);
-
-            if (foe_loc1.x < x + 60 && foe_loc1.y < y + 60 && foe_loc1.x > x - 60 && foe_loc1.y > y - 60) {
-
+            if (foe_loc1.x < x + weapon_offset && foe_loc1.y < y + weapon_offset && foe_loc1.x > x - weapon_offset && foe_loc1.y > y - weapon_offset) {
                 cout << " **** damage foe ***" << endl;
-                //SDL_Rect zombie_hit_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
-                //SDL_RenderCopy(ren, zombie_hit, NULL, &zombie_hit_bmp);
-                renderTexture(zombie_hit, ren, foe_loc1.y, foe_loc1.x);
 
                 // Red Box Damage
-                //SDL_Rect damage_bmp = { foe_loc1.y, foe_loc1.x, 64, 64 };
-                //SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
-                renderTexture(damage, ren, foe_loc1.y, foe_loc1.x);
+                renderTexture(damage, ren, foe_loc1.x, foe_loc1.y);
 
                     int foe_destroyed;
                     foe_destroyed = foe.update_health(1);
@@ -211,16 +204,11 @@ int main(int argc, char ** argv) {
                     }
                 }
 
-            if (foe_loc2.x < x + 60 && foe_loc2.y < y + 60 && foe_loc2.x > x - 60 && foe_loc2.y > y - 60) {
-
+            if (foe_loc2.x < x + weapon_offset && foe_loc2.y < y + weapon_offset && foe_loc2.x > x - weapon_offset && foe_loc2.y > y - weapon_offset) {
                 cout << " **** damage foe ***" << endl;
 
-                SDL_Rect zombie_hit_bmp = { foe_loc2.y, foe_loc2.x, 64, 64 };
-                SDL_RenderCopy(ren, zombie_hit, NULL, &zombie_hit_bmp);
-
                 // Red Damage Box
-                SDL_Rect damage_bmp = { foe_loc2.y, foe_loc2.x, 64, 64 };
-                SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+                renderTexture(damage, ren, foe_loc2.x, foe_loc2.y);
 
                     int foe_destroyed;
                     foe_destroyed = foe.update_health(2);
@@ -256,24 +244,16 @@ int main(int argc, char ** argv) {
         SDL_RenderCopy(ren, zombie, NULL, &zombie2_bmp);
 
 
-        //SDL_Rect zombie_hit_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
-        //SDL_RenderCopy(ren, zombie, NULL, &zombie_hit_bmp);
-
-
-        //cout << " x " << foe_loc2.x << " x " << x << endl;
-        //cout << " y " << foe_loc2.y << " y " << y << endl;
         if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
             cout << " **** damage player ***" << endl;
-            SDL_Rect damage_bmp = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+            renderTexture(damage, ren, x, y);
             player.print_foes_destroyed(foes_destroyed);
             player.update_health(2, foes_missed, foes_destroyed, start_game);
         }
 
         if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
             cout << " **** damage player ***" << endl;
-            SDL_Rect damage_bmp = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, damage, NULL, &damage_bmp);
+            renderTexture(damage, ren, x, y);
             player.print_foes_destroyed(foes_destroyed);
             player.update_health(2, foes_missed, foes_destroyed, start_game);
         }

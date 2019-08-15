@@ -48,7 +48,7 @@ class Player {
     if (health <= 0) {
       cout << " ***************" << endl;
       cout << "Player has died... Game Over" << endl;
-      cout << " ******** STATS: " << foes_destroyed << endl;
+      cout << " ******** STATS: " << endl;
       cout << " **** Foes Destroyed: " << foes_destroyed << endl;
       cout << " **** Foes Missed: " << foes_missed << endl;
       score = foes_destroyed - foes_missed;
@@ -58,6 +58,7 @@ class Player {
         cout << "You defeated your foes, nice work." << endl;
       } else {
         cout << "You where defeated by your foes." << endl;
+        cout << "Press spacebar to restart." << endl;
       }
       // reset game
       start_game = false;
