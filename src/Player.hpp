@@ -58,9 +58,9 @@ class Player {
         cout << "You defeated your foes, nice work." << endl;
       } else {
         cout << "You where defeated by your foes." << endl;
-        cout << "Press spacebar to restart." << endl;
       }
       // reset game
+      cout << "Press spacebar to restart." << endl;
       start_game = false;
       health = 100;
    }
