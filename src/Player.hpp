@@ -41,18 +41,25 @@ class Player {
   }
 
   void update_health(int amount, int foes_missed, int foes_destroyed, int &start_game) {
+    int score = 0;
     health = health - amount;
     cout << "Player health is now: " << health << endl;
 
     if (health <= 0) {
-      cout << "Player has died... " << endl;
+      cout << " ***************" << endl;
+      cout << "Player has died... Game Over" << endl;
+      cout << " ******** STATS: " << foes_destroyed << endl;
       cout << " **** Foes Destroyed: " << foes_destroyed << endl;
       cout << " **** Foes Missed: " << foes_missed << endl;
+      score = foes_destroyed - foes_missed;
+      cout << " **** Score: " << score << endl;
+
       if (foes_destroyed > foes_missed) {
         cout << "You defeated your foes, nice work." << endl;
       } else {
         cout << "You where defeated by your foes." << endl;
       }
+      // reset game
       start_game = false;
       health = 100;
    }
