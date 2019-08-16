@@ -12,6 +12,7 @@ How to play
 * Space bar to cast spell
 * Destroy monsters before time is up
 
+Build / start
 ```
 cd src
 make all
@@ -24,5 +25,6 @@ Todo
 * Enemy types
 
 Links
+
 https://www.libsdl.org/
 
