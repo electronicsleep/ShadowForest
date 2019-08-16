@@ -117,6 +117,7 @@ int main(int argc, char ** argv) {
     SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
     SDL_Texture *damage = loadTexture("Images/damage.bmp", ren);
+    SDL_Texture *warning = loadTexture("Images/warning.bmp", ren);
 
     while (!quit) {
         SDL_Delay(1);
@@ -187,6 +188,16 @@ int main(int argc, char ** argv) {
             renderTexture(magic_sword, ren, x-40, y-5);
             // Wizard Cast
             renderTexture(wizard_cast, ren, x, y);
+            // Proximity
+            renderTexture(warning, ren, x - weapon_offset, y - weapon_offset);
+
+            if (debug == 1) {
+                cout << "foe_loc1: " << foe_loc1.x << " ";
+                cout << foe_loc1.y << " " << endl;
+                cout << x + weapon_offset << " ";
+                cout << y + weapon_offset << " " << endl;
+            }
+
             if (foe_loc1.x < x + weapon_offset && foe_loc1.y < y + weapon_offset && foe_loc1.x > x - weapon_offset && foe_loc1.y > y - weapon_offset) {
                 cout << " **** damage foe ***" << endl;
 
@@ -198,6 +209,7 @@ int main(int argc, char ** argv) {
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
+                        show_magic = "";
 
                         foe.reset_foe();
                         foe.health = 0;
@@ -215,6 +227,7 @@ int main(int argc, char ** argv) {
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
+                        show_magic = "";
 
                         foe2.reset_foe();
                         foe2.health = 0;
