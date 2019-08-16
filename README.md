@@ -20,7 +20,6 @@ make all
 ```
 
 Todo
-* Opening graphic
 * High scores
 * Enemy types
 
