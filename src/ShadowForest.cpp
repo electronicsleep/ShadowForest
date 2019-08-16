@@ -188,8 +188,11 @@ int main(int argc, char ** argv) {
             renderTexture(magic_sword, ren, x-40, y-5);
             // Wizard Cast
             renderTexture(wizard_cast, ren, x, y);
-            // Proximity
-            renderTexture(warning, ren, x - weapon_offset, y - weapon_offset);
+
+            if (debug == 1) {
+                // Proximity
+                renderTexture(warning, ren, x - weapon_offset, y - weapon_offset);
+            }
 
             if (debug == 1) {
                 cout << "foe_loc1: " << foe_loc1.x << " ";
