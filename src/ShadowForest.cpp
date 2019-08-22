@@ -69,6 +69,7 @@ int main(int argc, char ** argv) {
     bool quit = false;
 
     int start_game = 0;
+    int level = 1;
 
     string errorMsg = "";
 
@@ -264,14 +265,14 @@ int main(int argc, char ** argv) {
             cout << " **** damage player ***" << endl;
             renderTexture(damage, ren, x, y);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed, start_game);
+            player.update_health(2, foes_missed, foes_destroyed, start_game, level);
         }
 
         if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
             cout << " **** damage player ***" << endl;
             renderTexture(damage, ren, x, y);
             player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed, start_game);
+            player.update_health(2, foes_missed, foes_destroyed, start_game, level);
         }
     }
 

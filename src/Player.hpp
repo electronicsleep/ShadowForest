@@ -40,10 +40,18 @@ class Player {
     cout << "Player experience is now: " << exp << endl;
   }
 
-  void update_health(int amount, int foes_missed, int foes_destroyed, int &start_game) {
+  void update_health(int amount, int foes_missed, int foes_destroyed, int &start_game, int &level) {
     int score = 0;
     health = health - amount;
     cout << "Player health is now: " << health << endl;
+
+    if (foes_destroyed == 10 or foes_destroyed == 20) {
+      level++;
+      cout << "You have reached level: " << level << endl;
+      cout << "Press spacebar to restart." << endl;
+      start_game = false;
+      health = 100;
+    }
 
     if (health <= 0) {
       cout << " ***************" << endl;
@@ -51,6 +59,7 @@ class Player {
       cout << " ******** STATS: " << endl;
       cout << " **** Foes Destroyed: " << foes_destroyed << endl;
       cout << " **** Foes Missed: " << foes_missed << endl;
+      cout << " **** Level: " << level << endl;
       score = foes_destroyed - foes_missed;
       cout << " **** Score: " << score << endl;
 
@@ -59,6 +68,7 @@ class Player {
       } else {
         cout << "You where defeated by your foes." << endl;
       }
+
       // reset game
       cout << "Press spacebar to restart." << endl;
       start_game = false;
