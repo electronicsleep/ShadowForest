@@ -45,14 +45,6 @@ class Player {
     health = health - amount;
     cout << "Player health is now: " << health << endl;
 
-    if (foes_destroyed == 10 or foes_destroyed == 20) {
-      level++;
-      cout << "You have reached level: " << level << endl;
-      cout << "Press spacebar to restart." << endl;
-      start_game = false;
-      health = 100;
-    }
-
     if (health <= 0) {
       cout << " ***************" << endl;
       cout << "Player has died... Game Over" << endl;
@@ -67,6 +59,10 @@ class Player {
         cout << "You defeated your foes, nice work." << endl;
       } else {
         cout << "You where defeated by your foes." << endl;
+      }
+
+      if (score >= 100) {
+        cout << "**** Awesome score! " << score << endl;
       }
 
       // reset game

@@ -46,6 +46,15 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
     SDL_RenderCopy(ren, tex, NULL, &dst);
 }
 
+void checkLevel(int foes_destroyed, int &level, int &start_game) {
+    if (foes_destroyed == 10 or foes_destroyed == 20) {
+      level++;
+      cout << "You have reached level: " << level << endl;
+      cout << "Press spacebar to restart." << endl;
+      start_game = 0;
+    }
+}
+
 int main(int argc, char ** argv) {
     Player player;
     Foe foe;
@@ -70,6 +79,10 @@ int main(int argc, char ** argv) {
 
     int start_game = 0;
     int level = 1;
+
+    // foe hit points
+    int hit_points = 15;
+    int foe_destroyed = 0;
 
     string errorMsg = "";
 
@@ -166,6 +179,13 @@ int main(int argc, char ** argv) {
 
         if (start_game == 1) {
 
+            if (level == 2) {
+                hit_points=5;
+            } else if (level == 3) {
+                hit_points=1;
+            }
+
+
         // Foe1
         Foe::Foe_Location foe_loc1;
         foe_loc1 = foe.return_location();
@@ -192,14 +212,12 @@ int main(int argc, char ** argv) {
 
             if (debug == 1) {
                 // Proximity
-                renderTexture(warning, ren, x - weapon_offset, y - weapon_offset);
+                renderTexture(warning, ren, x-40, y-5);
             }
 
             if (debug == 1) {
                 cout << "foe_loc1: " << foe_loc1.x << " ";
                 cout << foe_loc1.y << " " << endl;
-                cout << x + weapon_offset << " ";
-                cout << y + weapon_offset << " " << endl;
             }
 
             if (foe_loc1.x < x + weapon_offset && foe_loc1.y < y + weapon_offset && foe_loc1.x > x - weapon_offset && foe_loc1.y > y - weapon_offset) {
@@ -208,12 +226,13 @@ int main(int argc, char ** argv) {
                 // Red Box Damage
                 renderTexture(damage, ren, foe_loc1.x, foe_loc1.y);
 
-                    int foe_destroyed;
-                    foe_destroyed = foe.update_health(1);
+
+                    foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
                         show_magic = "";
+                        checkLevel(foes_destroyed, level, start_game);
 
                         foe.reset_foe();
                         foe.health = 0;
@@ -226,12 +245,12 @@ int main(int argc, char ** argv) {
                 // Red Damage Box
                 renderTexture(damage, ren, foe_loc2.x, foe_loc2.y);
 
-                    int foe_destroyed;
-                    foe_destroyed = foe.update_health(2);
+                    foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
                         show_magic = "";
+                        checkLevel(foes_destroyed, level, start_game);
 
                         foe2.reset_foe();
                         foe2.health = 0;
