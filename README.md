@@ -21,7 +21,7 @@ make all
 
 Todo
 * Mazes
-* Animiation
+* Animation
 * High scores
 * Enemy types
 
