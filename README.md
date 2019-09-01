@@ -20,6 +20,8 @@ make all
 ```
 
 Todo
+* Mazes
+* Animiation
 * High scores
 * Enemy types
 
