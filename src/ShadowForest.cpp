@@ -73,7 +73,7 @@ int main(int argc, char ** argv) {
     int y = 200;
 
     int weapon_offset = 80;
-    string move_direction = "none";
+    string move_direction = "left";
 
     int loop = 0;
     bool quit = false;
@@ -148,7 +148,7 @@ int main(int argc, char ** argv) {
 
             case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = 1; break;
+                case SDLK_SPACE:  show_magic = "magic_sword"; move_direction = "left"; start_game = 1; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
                 case SDLK_LEFT:  x = x - 5; show_magic = ""; move_direction = "left"; break;
@@ -266,10 +266,11 @@ int main(int argc, char ** argv) {
             // Wizard Cast
             SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
             SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
+            move_direction = "left";
 
         } else {
             // Wizard
-            if (move_direction == "left" or move_direction == "none") {
+            if (move_direction == "left") {
                 SDL_Rect wizard_bmp = { x, y, 64, 64 };
                 SDL_RenderCopy(ren, wizard, NULL, &wizard_bmp);
             } else if (move_direction == "right") {
