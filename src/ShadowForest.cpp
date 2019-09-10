@@ -190,7 +190,7 @@ int main(int argc, char ** argv) {
 
         // Foe1
         Foe::Foe_Location foe_loc1;
-        foe_loc1 = foe.return_location();
+        foe_loc1 = foe.return_location(level);
         if (foe_loc1.x > 500 or foe_loc1.y > 500) {
           foe_loc1 = foe.respawn_foe();
           foes_missed++;
@@ -199,7 +199,7 @@ int main(int argc, char ** argv) {
 
         // Foe2
         Foe::Foe_Location foe_loc2;
-        foe_loc2 = foe2.return_location();
+        foe_loc2 = foe2.return_location(level);
         if (foe_loc2.x > 500 or foe_loc2.y > 500) {
           foe_loc2 = foe2.respawn_foe();
           foes_missed++;
