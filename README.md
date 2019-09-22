@@ -23,6 +23,7 @@ Todo
 * Mazes
 * Animation
 * High scores
+* Hero types
 * Enemy types
 
 Links
