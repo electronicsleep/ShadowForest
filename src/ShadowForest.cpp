@@ -94,7 +94,6 @@ int main(int argc, char ** argv) {
         exit(1);
     }
 
-    // Window
     SDL_Window *window;
 
     SDL_Init(SDL_INIT_VIDEO);
@@ -187,47 +186,45 @@ int main(int argc, char ** argv) {
                 hit_points=1;
             }
 
-
-        // Foe1
-        Foe::Foe_Location foe_loc1;
-        foe_loc1 = foe.return_location(level);
-        if (foe_loc1.x > 500 or foe_loc1.y > 500) {
-          foe_loc1 = foe.respawn_foe();
-          foes_missed++;
-          cout << "foes_missed: " << foes_missed << endl;
-        }
-
-        // Foe2
-        Foe::Foe_Location foe_loc2;
-        foe_loc2 = foe2.return_location(level);
-        if (foe_loc2.x > 500 or foe_loc2.y > 500) {
-          foe_loc2 = foe2.respawn_foe();
-          foes_missed++;
-          cout << "foes_missed: " << foes_missed << endl;
-        }
-
-        if (show_magic == "magic_sword") {
-            // Wizard Magic
-            renderTexture(magic_sword, ren, x-40, y-5);
-            // Wizard Cast
-            renderTexture(wizard_cast, ren, x, y);
-
-            if (debug == 1) {
-                // Proximity
-                renderTexture(warning, ren, x-40, y-5);
+            // Foe1
+            Foe::Foe_Location foe_loc1;
+            foe_loc1 = foe.return_location(level);
+            if (foe_loc1.x > 500 or foe_loc1.y > 500) {
+              foe_loc1 = foe.respawn_foe();
+              foes_missed++;
+              cout << "foes_missed: " << foes_missed << endl;
             }
 
-            if (debug == 1) {
-                cout << "foe_loc1: " << foe_loc1.x << " ";
-                cout << foe_loc1.y << " " << endl;
+            // Foe2
+            Foe::Foe_Location foe_loc2;
+            foe_loc2 = foe2.return_location(level);
+            if (foe_loc2.x > 500 or foe_loc2.y > 500) {
+              foe_loc2 = foe2.respawn_foe();
+              foes_missed++;
+              cout << "foes_missed: " << foes_missed << endl;
             }
 
-            if (foe_loc1.x < x + weapon_offset && foe_loc1.y < y + weapon_offset && foe_loc1.x > x - weapon_offset && foe_loc1.y > y - weapon_offset) {
-                cout << " **** damage foe ***" << endl;
+            if (show_magic == "magic_sword") {
+                // Wizard Magic
+                renderTexture(magic_sword, ren, x-40, y-5);
+                // Wizard Cast
+                renderTexture(wizard_cast, ren, x, y);
 
-                // Red Box Damage
-                renderTexture(damage, ren, foe_loc1.x, foe_loc1.y);
+                if (debug == 1) {
+                    // Proximity
+                    renderTexture(warning, ren, x-40, y-5);
+                }
 
+                if (debug == 1) {
+                    cout << "foe_loc1: " << foe_loc1.x << " ";
+                    cout << foe_loc1.y << " " << endl;
+                }
+
+                if (foe_loc1.x < x + weapon_offset && foe_loc1.y < y + weapon_offset && foe_loc1.x > x - weapon_offset && foe_loc1.y > y - weapon_offset) {
+                    cout << " **** damage foe ***" << endl;
+
+                    // Red Box Damage
+                    renderTexture(damage, ren, foe_loc1.x, foe_loc1.y);
 
                     foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
@@ -241,11 +238,11 @@ int main(int argc, char ** argv) {
                     }
                 }
 
-            if (foe_loc2.x < x + weapon_offset && foe_loc2.y < y + weapon_offset && foe_loc2.x > x - weapon_offset && foe_loc2.y > y - weapon_offset) {
-                cout << " **** damage foe ***" << endl;
+                if (foe_loc2.x < x + weapon_offset && foe_loc2.y < y + weapon_offset && foe_loc2.x > x - weapon_offset && foe_loc2.y > y - weapon_offset) {
+                    cout << " **** damage foe ***" << endl;
 
-                // Red Damage Box
-                renderTexture(damage, ren, foe_loc2.x, foe_loc2.y);
+                    // Red Damage Box
+                    renderTexture(damage, ren, foe_loc2.x, foe_loc2.y);
 
                     foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
@@ -259,61 +256,60 @@ int main(int argc, char ** argv) {
                     }
                 }
 
-        } else if (show_magic == "magic_shield") {
-            SDL_Rect foe_hit_bmp = {x-40, y-5, 64, 64};
-            SDL_RenderCopy(ren, magic_shield, NULL, &foe_hit_bmp);
+            } else if (show_magic == "magic_shield") {
+                SDL_Rect foe_hit_bmp = {x-40, y-5, 64, 64};
+                SDL_RenderCopy(ren, magic_shield, NULL, &foe_hit_bmp);
 
-            // Wizard Cast
-            SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
-            SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
-            move_direction = "left";
+                // Wizard Cast
+                SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
+                SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
+                move_direction = "left";
 
-        } else {
-            // Wizard
-            if (move_direction == "left") {
-                SDL_Rect wizard_bmp = { x, y, 64, 64 };
-                SDL_RenderCopy(ren, wizard, NULL, &wizard_bmp);
-            } else if (move_direction == "right") {
-                SDL_Rect wizard_right_bmp = { x, y, 64, 64 };
-                SDL_RenderCopy(ren, wizard_right, NULL, &wizard_right_bmp);
             } else {
-                SDL_Rect wizard_top_bmp = { x, y, 64, 64 };
-                SDL_RenderCopy(ren, wizard_top, NULL, &wizard_top_bmp);
+                // Wizard
+                if (move_direction == "left") {
+                    SDL_Rect wizard_bmp = { x, y, 64, 64 };
+                    SDL_RenderCopy(ren, wizard, NULL, &wizard_bmp);
+                } else if (move_direction == "right") {
+                    SDL_Rect wizard_right_bmp = { x, y, 64, 64 };
+                    SDL_RenderCopy(ren, wizard_right, NULL, &wizard_right_bmp);
+                } else {
+                    SDL_Rect wizard_top_bmp = { x, y, 64, 64 };
+                    SDL_RenderCopy(ren, wizard_top, NULL, &wizard_top_bmp);
+                }
             }
-        }
 
+            SDL_Rect zombie1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
+            SDL_RenderCopy(ren, zombie, NULL, &zombie1_bmp);
 
-        SDL_Rect zombie1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
-        SDL_RenderCopy(ren, zombie, NULL, &zombie1_bmp);
+            SDL_Rect zombie2_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
+            SDL_RenderCopy(ren, zombie, NULL, &zombie2_bmp);
 
+            if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
+                cout << " **** damage player ***" << endl;
+                renderTexture(damage, ren, x, y);
+                player.print_foes_destroyed(foes_destroyed);
+                player.update_health(2, foes_missed, foes_destroyed, start_game, level);
+            }
 
-        SDL_Rect zombie2_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
-        SDL_RenderCopy(ren, zombie, NULL, &zombie2_bmp);
+            if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
+                cout << " **** damage player ***" << endl;
+                renderTexture(damage, ren, x, y);
+                player.print_foes_destroyed(foes_destroyed);
+                player.update_health(2, foes_missed, foes_destroyed, start_game, level);
+            }
 
+        } // End start game
 
-        if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
-            cout << " **** damage player ***" << endl;
-            renderTexture(damage, ren, x, y);
-            player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed, start_game, level);
-        }
+    time++;
+    SDL_RenderPresent(ren);
 
-        if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
-            cout << " **** damage player ***" << endl;
-            renderTexture(damage, ren, x, y);
-            player.print_foes_destroyed(foes_destroyed);
-            player.update_health(2, foes_missed, foes_destroyed, start_game, level);
-        }
-    }
+    } // End run game
 
-        time++;
-        SDL_RenderPresent(ren);
-    }
+SDL_DestroyTexture(bg);
+SDL_DestroyRenderer(ren);
+SDL_DestroyWindow(window);
 
-    SDL_DestroyTexture(bg);
-    SDL_DestroyRenderer(ren);
-    SDL_DestroyWindow(window);
-
-    SDL_Quit();
-    return 0;
+SDL_Quit();
+return 0;
 }

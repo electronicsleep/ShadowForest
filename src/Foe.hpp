@@ -66,8 +66,8 @@ class Foe {
   }
 
   Foe_Location move_diagonal2(){
-    foe_loc.x += 2;
-    foe_loc.y += 2;
+    foe_loc.x += 1;
+    foe_loc.y += 1;
     return foe_loc;
   }
 
