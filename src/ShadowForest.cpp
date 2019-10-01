@@ -79,6 +79,7 @@ int main(int argc, char ** argv) {
     bool quit = false;
 
     int start_game = 0;
+    int game_over = 0;
     int level = 1;
 
     // foe hit points
@@ -125,6 +126,7 @@ int main(int argc, char ** argv) {
 
     SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
     SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", ren);
+    SDL_Texture *shadow_forest_game_over = loadTexture("Images/shadow-forest-game-over.bmp", ren);
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
     SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", ren);
     SDL_Texture *wizard_top = loadTexture("Images/wizard-top.bmp", ren);
@@ -139,6 +141,10 @@ int main(int argc, char ** argv) {
         SDL_Delay(1);
         SDL_PollEvent(&event);
 
+        if (game_over == 1) {
+            start_game = 0;
+        }
+
         switch (event.type) {
             case SDL_QUIT:
                 quit = true;
@@ -147,7 +153,7 @@ int main(int argc, char ** argv) {
 
             case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-                case SDLK_SPACE:  show_magic = "magic_sword"; move_direction = "left"; start_game = 1; break;
+                case SDLK_SPACE:  show_magic = "magic_sword"; move_direction = "left"; start_game = 1; game_over = 0; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
                 case SDLK_LEFT:  x = x - 5; show_magic = ""; move_direction = "left"; break;
@@ -169,7 +175,10 @@ int main(int argc, char ** argv) {
         // Background
         SDL_RenderCopy(ren, bg, NULL, NULL);
 
-        if (start_game == 0) {
+        if (game_over == 1) {
+          SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
+          SDL_RenderCopy(ren, shadow_forest_game_over, NULL, &shadow_forest_game_over_bmp);
+        } else if (start_game == 0) {
           SDL_Rect shadow_forest_title_logo_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(ren, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
         }
@@ -289,14 +298,14 @@ int main(int argc, char ** argv) {
                 cout << " **** damage player ***" << endl;
                 renderTexture(damage, ren, x, y);
                 player.print_foes_destroyed(foes_destroyed);
-                player.update_health(2, foes_missed, foes_destroyed, start_game, level);
+                player.update_health(2, foes_missed, foes_destroyed, game_over, level);
             }
 
             if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
                 cout << " **** damage player ***" << endl;
                 renderTexture(damage, ren, x, y);
                 player.print_foes_destroyed(foes_destroyed);
-                player.update_health(2, foes_missed, foes_destroyed, start_game, level);
+                player.update_health(2, foes_missed, foes_destroyed, game_over, level);
             }
 
         } // End start game
