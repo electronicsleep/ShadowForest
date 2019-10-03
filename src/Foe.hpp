@@ -29,45 +29,64 @@ class Foe {
    return foe_loc;
   }
 
-  Foe_Location respawn_foe() {
-   foe_loc.x = rand()%400;
-   foe_loc.y = rand()%400;
-
-   //cout << "respawn: x " << foe_loc.x << endl;
-   //cout << "respawn: y " << foe_loc.y << endl;
+  Foe_Location reset_foe_right() {
+   foe_loc = respawn_foe_right();
    return foe_loc;
   }
 
+  Foe_Location respawn_foe() {
+   foe_loc.x = rand()%400;
+   foe_loc.y = rand()%200;
+   return foe_loc;
+  }
 
-  Foe_Location return_location(int level) {
+  Foe_Location respawn_foe_right() {
+   foe_loc.x = rand()%600;
+   foe_loc.y = rand()%800;
+   return foe_loc;
+  }
+
+  Foe_Location return_location_left(int level) {
     int decide_move = rand();
-    //cout << "decide_move" << decide_move << endl;
-    //cout << decide_move % 3 << endl;
     if (level > 1) {
-      foe_loc = move_diagonal();
+      foe_loc = move_diagonal_left();
     }
     if (decide_move % 3 == 0) {
-    //cout << "move_diagonal" << endl;
-    foe_loc = move_diagonal();
+       foe_loc = move_diagonal_left();
     } else {
-    //cout << "move_diagonal2" << endl;
-    foe_loc = move_diagonal2();
+       foe_loc = move_diagonal2_left();
     }
-    //cout << "Foe loc x " << foe_loc.x << endl;
-    //cout << "Foe loc y " << foe_loc.y << endl;
-
     return foe_loc;
   }
 
-  Foe_Location move_diagonal(){
+    Foe_Location return_location_right(int level) {
+    int decide_move = rand();
+    if (level > 1) {
+      foe_loc = move_diagonal_right();
+    }
+    if (decide_move % 3 == 0) {
+      foe_loc = move_diagonal_right();
+    } else {
+      foe_loc = move_diagonal_right();
+    }
+    return foe_loc;
+  }
+
+  Foe_Location move_diagonal_left(){
     foe_loc.x++;
     foe_loc.y++;
     return foe_loc;
   }
 
-  Foe_Location move_diagonal2(){
-    foe_loc.x += 1;
-    foe_loc.y += 1;
+  Foe_Location move_diagonal_right(){
+    foe_loc.x--;
+    foe_loc.y--;
+    return foe_loc;
+  }
+
+  Foe_Location move_diagonal2_left(){
+    foe_loc.x += 2;
+    foe_loc.y += 2;
     return foe_loc;
   }
 
