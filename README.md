@@ -2,10 +2,6 @@
 
 Open Source Game created with C++ and SDL2
 
-![Alt text](screenshot.jpg?raw=true "Screenshot")
-
-Creating a simple game to learn C++ and SDL2
-
 How to play
 * Spacebar to start level
 * Arrow keys moves player
