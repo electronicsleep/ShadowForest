@@ -4,10 +4,12 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <string>
 #include <time.h>
 
+#include "Game.hpp"
 #include "Player.hpp"
 #include "Foe.hpp"
 
@@ -21,11 +23,11 @@ void printMsg(string msg) {
     cout << msg << endl;
 }
 
-SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
+SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *render) {
     SDL_Texture *texture = NULL;
     SDL_Surface *loadedImage = SDL_LoadBMP(file.c_str());
     if (loadedImage != NULL) {
-        texture = SDL_CreateTextureFromSurface(ren, loadedImage);
+        texture = SDL_CreateTextureFromSurface(render, loadedImage);
         SDL_FreeSurface(loadedImage);
         if (texture == NULL) {
             printMsg("Error: CreateTextureFromSurface");
@@ -38,12 +40,12 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
     return texture;
 }
 
-void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
+void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y){
     SDL_Rect dst;
     dst.x = x;
     dst.y = y;
     SDL_QueryTexture(tex, NULL, NULL, &dst.w, &dst.h);
-    SDL_RenderCopy(ren, tex, NULL, &dst);
+    SDL_RenderCopy(render, tex, NULL, &dst);
 }
 
 void checkLevel(int foes_destroyed, int &level, int &start_game) {
@@ -56,11 +58,13 @@ void checkLevel(int foes_destroyed, int &level, int &start_game) {
 }
 
 int main(int argc, char ** argv) {
+    Game game;
     Player player;
     Foe foe;
     Foe foe2;
     foe.set_location(300, 300);
     foe2.set_location(100, 100);
+    game.print_name("Shadow Forest");
     player.print_name("Logan");
     foe.print_name("Zombie1");
     foe2.print_name("Zombie2");
@@ -85,10 +89,12 @@ int main(int argc, char ** argv) {
     // foe hit points
     int hit_points = 15;
     int foe_destroyed = 0;
+    int display_hud = 0;
 
     string errorMsg = "";
-
     SDL_Event event;
+    int SDL_Result = 0;
+
 
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
 	printMsg("Failed to init SDl2");
@@ -108,6 +114,13 @@ int main(int argc, char ** argv) {
         SDL_WINDOW_OPENGL
     );
 
+
+    if(TTF_Init() < 0) {
+        printf("TTF Init failed: %s\n", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
+
     if (window == NULL) {
         errorMsg = SDL_GetError();
         printMsg("Could not create window: " + errorMsg);
@@ -115,8 +128,8 @@ int main(int argc, char ** argv) {
     }
 
     //Required for SDL_RenderCopy
-    SDL_Renderer *ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == NULL) {
+    SDL_Renderer *render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (render == NULL) {
         SDL_DestroyWindow(window);
         errorMsg = SDL_GetError();
         printMsg("SDL_CreateRenderer Error" + errorMsg);
@@ -124,20 +137,20 @@ int main(int argc, char ** argv) {
         return 1;
     }
 
-    SDL_Texture *bg = loadTexture("Images/background.bmp", ren);
-    SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", ren);
-    SDL_Texture *shadow_forest_game_over = loadTexture("Images/shadow-forest-game-over.bmp", ren);
-    SDL_Texture *wizard = loadTexture("Images/wizard.bmp", ren);
-    SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", ren);
-    SDL_Texture *wizard_top = loadTexture("Images/wizard-top.bmp", ren);
-    SDL_Texture *zombie = loadTexture("Images/zombie.bmp", ren);
-    SDL_Texture *zombie_right = loadTexture("Images/zombie-right.bmp", ren);
-    SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", ren);
-    SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", ren);
-    SDL_Texture *magic_sword_right = loadTexture("Images/magic-sword-right.bmp", ren);
-    SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", ren);
-    SDL_Texture *damage = loadTexture("Images/damage.bmp", ren);
-    SDL_Texture *warning = loadTexture("Images/warning.bmp", ren);
+    SDL_Texture *bg = loadTexture("Images/background.bmp", render);
+    SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", render);
+    SDL_Texture *shadow_forest_game_over = loadTexture("Images/shadow-forest-game-over.bmp", render);
+    SDL_Texture *wizard = loadTexture("Images/wizard.bmp", render);
+    SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", render);
+    SDL_Texture *wizard_top = loadTexture("Images/wizard-top.bmp", render);
+    SDL_Texture *zombie = loadTexture("Images/zombie.bmp", render);
+    SDL_Texture *zombie_right = loadTexture("Images/zombie-right.bmp", render);
+    SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", render);
+    SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", render);
+    SDL_Texture *magic_sword_right = loadTexture("Images/magic-sword-right.bmp", render);
+    SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", render);
+    SDL_Texture *damage = loadTexture("Images/damage.bmp", render);
+    SDL_Texture *warning = loadTexture("Images/warning.bmp", render);
 
     while (!quit) {
         SDL_Delay(1);
@@ -172,17 +185,29 @@ int main(int argc, char ** argv) {
             cout << "show_magic: " << show_magic << endl;
         }
 
-        SDL_RenderClear(ren);
+        SDL_RenderClear(render);
 
         // Background
-        SDL_RenderCopy(ren, bg, NULL, NULL);
+        SDL_Result = SDL_RenderCopy(render, bg, NULL, NULL);
+
+        if (display_hud == 0) {
+          SDL_Rect Message_rect;
+          Message_rect.x = 0;
+          Message_rect.y = 0;
+          Message_rect.w = 100;
+          Message_rect.h = 50;
+
+          SDL_Texture* Message = game.update_hud(render, "hello");
+          SDL_Result = SDL_RenderCopy(render, Message, NULL, &Message_rect);
+          display_hud = 1;
+        }
 
         if (game_over == 1) {
           SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
-          SDL_RenderCopy(ren, shadow_forest_game_over, NULL, &shadow_forest_game_over_bmp);
+          SDL_RenderCopy(render, shadow_forest_game_over, NULL, &shadow_forest_game_over_bmp);
         } else if (start_game == 0) {
           SDL_Rect shadow_forest_title_logo_bmp = { 0, 200, 300, 400 };
-          SDL_RenderCopy(ren, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
+          SDL_RenderCopy(render, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
         }
 
         if (loop > 100) {
@@ -218,16 +243,16 @@ int main(int argc, char ** argv) {
             if (show_magic == "magic_sword") {
                 // Wizard Cast
                 if (move_direction == "left") {
-                    renderTexture(magic_sword, ren, x-40, y-5);
-                    renderTexture(wizard_cast, ren, x, y);
+                    renderTexture(magic_sword, render, x-40, y-5);
+                    renderTexture(wizard_cast, render, x, y);
                 } else {
-                    renderTexture(magic_sword_right, ren, x+40, y-5);
-                    renderTexture(wizard_right, ren, x, y);
+                    renderTexture(magic_sword_right, render, x+40, y-5);
+                    renderTexture(wizard_right, render, x, y);
                 }
 
                 if (debug == 1) {
                     // Proximity
-                    renderTexture(warning, ren, x-40, y-5);
+                    renderTexture(warning, render, x-40, y-5);
                 }
 
                 if (debug == 1) {
@@ -239,7 +264,7 @@ int main(int argc, char ** argv) {
                     cout << " **** damage foe ***" << endl;
 
                     // Red Box Damage
-                    renderTexture(damage, ren, foe_loc1.x, foe_loc1.y);
+                    renderTexture(damage, render, foe_loc1.x, foe_loc1.y);
 
                     foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
@@ -257,7 +282,7 @@ int main(int argc, char ** argv) {
                     cout << " **** damage foe ***" << endl;
 
                     // Red Damage Box
-                    renderTexture(damage, ren, foe_loc2.x, foe_loc2.y);
+                    renderTexture(damage, render, foe_loc2.x, foe_loc2.y);
 
                     foe_destroyed = foe.update_health(hit_points);
                     if (foe_destroyed == 1) {
@@ -273,54 +298,55 @@ int main(int argc, char ** argv) {
 
             } else if (show_magic == "magic_shield") {
                 SDL_Rect foe_hit_bmp = {x-40, y-5, 64, 64};
-                SDL_RenderCopy(ren, magic_shield, NULL, &foe_hit_bmp);
+                SDL_RenderCopy(render, magic_shield, NULL, &foe_hit_bmp);
 
                 // Wizard Cast
                 SDL_Rect wizard_cast_bmp = { x, y, 64, 64 };
-                SDL_RenderCopy(ren, wizard_cast, NULL, &wizard_cast_bmp);
+                SDL_RenderCopy(render, wizard_cast, NULL, &wizard_cast_bmp);
             } else {
                 // Wizard
                 if (move_direction == "left") {
                     SDL_Rect wizard_bmp = { x, y, 64, 64 };
-                    SDL_RenderCopy(ren, wizard, NULL, &wizard_bmp);
+                    SDL_RenderCopy(render, wizard, NULL, &wizard_bmp);
                 } else if (move_direction == "right") {
                     SDL_Rect wizard_right_bmp = { x, y, 64, 64 };
-                    SDL_RenderCopy(ren, wizard_right, NULL, &wizard_right_bmp);
+                    SDL_RenderCopy(render, wizard_right, NULL, &wizard_right_bmp);
                 } else {
                     SDL_Rect wizard_top_bmp = { x, y, 64, 64 };
-                    SDL_RenderCopy(ren, wizard_top, NULL, &wizard_top_bmp);
+                    SDL_RenderCopy(render, wizard_top, NULL, &wizard_top_bmp);
                 }
             }
 
             SDL_Rect zombie1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
-            SDL_RenderCopy(ren, zombie, NULL, &zombie1_bmp);
+            SDL_RenderCopy(render, zombie, NULL, &zombie1_bmp);
 
             SDL_Rect zombie_right_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
-            SDL_RenderCopy(ren, zombie_right, NULL, &zombie_right_bmp);
+            SDL_RenderCopy(render, zombie_right, NULL, &zombie_right_bmp);
 
             if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
                 cout << " **** damage player ***" << endl;
-                renderTexture(damage, ren, x, y);
+                renderTexture(damage, render, x, y);
                 player.print_foes_destroyed(foes_destroyed);
                 player.update_health(2, foes_missed, foes_destroyed, game_over, level);
             }
 
             if (foe_loc1.x < x + 50 && foe_loc1.y < y + 50 && foe_loc1.x > x - 50 && foe_loc1.y > y - 50) {
                 cout << " **** damage player ***" << endl;
-                renderTexture(damage, ren, x, y);
+                renderTexture(damage, render, x, y);
                 player.print_foes_destroyed(foes_destroyed);
                 player.update_health(2, foes_missed, foes_destroyed, game_over, level);
             }
 
+
         } // End start game
 
     time++;
-    SDL_RenderPresent(ren);
+    SDL_RenderPresent(render);
 
     } // End run game
 
 SDL_DestroyTexture(bg);
-SDL_DestroyRenderer(ren);
+SDL_DestroyRenderer(render);
 SDL_DestroyWindow(window);
 
 SDL_Quit();
