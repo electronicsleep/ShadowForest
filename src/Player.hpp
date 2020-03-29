@@ -18,6 +18,10 @@ class Player {
     cout << "Player is alive";
   }
 
+  int get_health() {
+    return health;
+  }
+
   void print_name(const char* name) {
     cout << "Player name is " << name << endl;
   }

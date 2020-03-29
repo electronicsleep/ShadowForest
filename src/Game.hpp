@@ -11,26 +11,35 @@ public:
     cout << "Game: " << name << endl;
   }
 
-  SDL_Texture* update_hud(SDL_Renderer *render, const char* health) {
+  void update_hud(SDL_Renderer* render, TTF_Font* Sans, int health) {
     int SDL_Result = 0;
-    TTF_Font* Sans = TTF_OpenFont("OpenSans-Regular.ttf", 12);
-    printf("OpenFont: %s\n", SDL_GetError());
     SDL_Color White = {255, 255, 255};
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, health, White);
-    printf("RenderText: %s\n", SDL_GetError());
+    SDL_Color Red = {255, 0, 0};
+
+    std::string health_string = std::to_string(health);
+    char const *hud_text = health_string.c_str();
+
+    SDL_Surface* surfaceMessage;
+    if (health > 50) {
+        surfaceMessage = TTF_RenderText_Solid(Sans, hud_text, White);
+    } else {
+        surfaceMessage = TTF_RenderText_Solid(Sans, hud_text, Red);
+    }
     SDL_Texture* Message = SDL_CreateTextureFromSurface(render, surfaceMessage);
-    printf("CreateTexture: %s\n", SDL_GetError());
 
-    //SDL_Result = SDL_RenderCopy(render, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+          SDL_Rect Message_rect;
+          Message_rect.x = 0;
+          Message_rect.y = 0;
+          Message_rect.w = 100;
+          Message_rect.h = 50;
 
-    printf("RenderHUD: %s\n", SDL_GetError());
+    SDL_Result = SDL_RenderCopy(render, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 
     if (SDL_Result < 0) {
-    printf("HUD failed: %s\n", SDL_GetError());
     SDL_Quit();
     }
-    printf("HUD Render Finished\n");
-    return Message;
+
+    SDL_FreeSurface(surfaceMessage);
   }
 
 };

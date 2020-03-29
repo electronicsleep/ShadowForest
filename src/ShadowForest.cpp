@@ -78,6 +78,7 @@ int main(int argc, char ** argv) {
 
     int weapon_offset = 80;
     string move_direction = "left";
+    //string hud_text = "start";
 
     int loop = 0;
     bool quit = false;
@@ -89,17 +90,18 @@ int main(int argc, char ** argv) {
     // foe hit points
     int hit_points = 15;
     int foe_destroyed = 0;
-    int display_hud = 0;
 
     string errorMsg = "";
     SDL_Event event;
-    int SDL_Result = 0;
+    TTF_Font* Sans;
 
 
+    /*
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
 	printMsg("Failed to init SDl2");
         exit(1);
     }
+    */
 
     SDL_Window *window;
 
@@ -119,6 +121,10 @@ int main(int argc, char ** argv) {
         printf("TTF Init failed: %s\n", SDL_GetError());
         SDL_Quit();
         return 1;
+    } else {
+        printf("TTF Init ok");
+        Sans = TTF_OpenFont("OpenSans-Regular.ttf", 12);
+        printf("OpenFont: %s\n", SDL_GetError());
     }
 
     if (window == NULL) {
@@ -188,19 +194,7 @@ int main(int argc, char ** argv) {
         SDL_RenderClear(render);
 
         // Background
-        SDL_Result = SDL_RenderCopy(render, bg, NULL, NULL);
-
-        if (display_hud == 0) {
-          SDL_Rect Message_rect;
-          Message_rect.x = 0;
-          Message_rect.y = 0;
-          Message_rect.w = 100;
-          Message_rect.h = 50;
-
-          SDL_Texture* Message = game.update_hud(render, "hello");
-          SDL_Result = SDL_RenderCopy(render, Message, NULL, &Message_rect);
-          display_hud = 1;
-        }
+        SDL_RenderCopy(render, bg, NULL, NULL);
 
         if (game_over == 1) {
           SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
@@ -336,6 +330,9 @@ int main(int argc, char ** argv) {
                 player.print_foes_destroyed(foes_destroyed);
                 player.update_health(2, foes_missed, foes_destroyed, game_over, level);
             }
+            // Show Health HUD
+            int health = player.get_health();
+            game.update_hud(render, Sans, health);
 
 
         } // End start game
