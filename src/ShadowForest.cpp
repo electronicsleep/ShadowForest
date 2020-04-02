@@ -122,9 +122,9 @@ int main(int argc, char ** argv) {
         SDL_Quit();
         return 1;
     } else {
-        printf("TTF Init ok");
+        printf("TTF Init ok\n");
         Sans = TTF_OpenFont("OpenSans-Regular.ttf", 12);
-        printf("OpenFont: %s\n", SDL_GetError());
+        printf("OpenFont status: %s\n", SDL_GetError());
     }
 
     if (window == NULL) {
@@ -152,8 +152,10 @@ int main(int argc, char ** argv) {
     SDL_Texture *zombie = loadTexture("Images/zombie.bmp", render);
     SDL_Texture *zombie_right = loadTexture("Images/zombie-right.bmp", render);
     SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", render);
-    SDL_Texture *magic_sword = loadTexture("Images/magic-sword.bmp", render);
+    SDL_Texture *magic_sword_left = loadTexture("Images/magic-sword-left.bmp", render);
     SDL_Texture *magic_sword_right = loadTexture("Images/magic-sword-right.bmp", render);
+    SDL_Texture *magic_sword_up = loadTexture("Images/magic-sword-up.bmp", render);
+    SDL_Texture *magic_sword_down = loadTexture("Images/magic-sword-down.bmp", render);
     SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", render);
     SDL_Texture *damage = loadTexture("Images/damage.bmp", render);
     SDL_Texture *warning = loadTexture("Images/warning.bmp", render);
@@ -237,7 +239,13 @@ int main(int argc, char ** argv) {
             if (show_magic == "magic_sword") {
                 // Wizard Cast
                 if (move_direction == "left") {
-                    renderTexture(magic_sword, render, x-40, y-5);
+                    renderTexture(magic_sword_left, render, x-40, y-5);
+                    renderTexture(wizard_cast, render, x, y);
+                } else if (move_direction == "up") {
+                    renderTexture(magic_sword_up, render, x-40, y-10);
+                    renderTexture(wizard_cast, render, x, y);
+                } else if (move_direction == "down") {
+                    renderTexture(magic_sword_down, render, x-40, y+10);
                     renderTexture(wizard_cast, render, x, y);
                 } else {
                     renderTexture(magic_sword_right, render, x+40, y-5);
