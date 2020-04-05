@@ -123,7 +123,7 @@ int main(int argc, char ** argv) {
         return 1;
     } else {
         printf("TTF Init ok\n");
-        Sans = TTF_OpenFont("OpenSans-Regular.ttf", 12);
+        Sans = TTF_OpenFont("OpenSans-Regular.ttf", 20);
         printf("OpenFont status: %s\n", SDL_GetError());
     }
 
