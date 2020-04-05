@@ -340,7 +340,7 @@ int main(int argc, char ** argv) {
             }
             // Show Health HUD
             int health = player.get_health();
-            game.update_hud(render, Sans, health);
+            game.update_hud(render, Sans, health, level);
 
 
         } // End start game
