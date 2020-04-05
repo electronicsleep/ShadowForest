@@ -13,8 +13,9 @@ public:
 
   void update_hud(SDL_Renderer* render, TTF_Font* Sans, int health, int level) {
     int SDL_Result = 0;
-    SDL_Color White = {255, 255, 255};
-    SDL_Color Red = {255, 0, 0};
+    char hud_txt[80];
+    int texW = 0;
+    int texH = 0;
 
     std::string health_string = std::to_string(health);
     std::string level_string = std::to_string(level);
@@ -24,12 +25,13 @@ public:
     const char *level_title = " Level: ";
     const char *level_value = level_string.c_str();
 
-    char hud_txt[80];
+    SDL_Color White = {255, 255, 255};
+    SDL_Color Red = {255, 0, 0};
+
     strcpy(hud_txt, health_title);
     strcat(hud_txt, health_value);
     strcat(hud_txt, level_title);
     strcat(hud_txt, level_value);
-    puts(hud_txt);
 
     SDL_Surface* surfaceMessage;
     if (health > 50) {
@@ -39,13 +41,10 @@ public:
     }
     SDL_Texture* Message = SDL_CreateTextureFromSurface(render, surfaceMessage);
 
-          SDL_Rect Message_rect;
-          Message_rect.x = 0;
-          Message_rect.y = 0;
-          Message_rect.w = 300;
-          Message_rect.h = 50;
+    SDL_QueryTexture(Message, NULL, NULL, &texW, &texH);
+    SDL_Rect dstrect = { 0, 0, texW, texH };
 
-    SDL_Result = SDL_RenderCopy(render, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+    SDL_Result = SDL_RenderCopy(render, Message, NULL, &dstrect);
 
     if (SDL_Result < 0) {
     SDL_Quit();
