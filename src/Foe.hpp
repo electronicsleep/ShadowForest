@@ -50,9 +50,11 @@ class Foe {
     int decide_move = rand();
     if (level > 1) {
       foe_loc = move_diagonal_left();
+      foe_loc = move_down(5);
     }
     if (decide_move % 3 == 0) {
        foe_loc = move_diagonal_left();
+       foe_loc = move_down(5);
     } else {
        foe_loc = move_diagonal2_left();
     }
@@ -90,8 +92,8 @@ class Foe {
     return foe_loc;
   }
 
-  Foe_Location move_down(){
-    foe_loc.y++;
+  Foe_Location move_down(int move){
+    foe_loc.y = foe_loc.y + move;
     return foe_loc;
   }
 
