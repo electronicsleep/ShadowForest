@@ -48,28 +48,40 @@ class Foe {
 
   Foe_Location return_location_left(int level) {
     int decide_move = rand();
-    if (level > 1) {
+    if (level == 1) {
       foe_loc = move_diagonal_left();
-      foe_loc = move_down(5);
-    }
-    if (decide_move % 3 == 0) {
-       foe_loc = move_diagonal_left();
-       foe_loc = move_down(5);
+
+    } else if (level == 2) {
+      if (decide_move % 6 == 0) {
+        foe_loc = move_diagonal_left();
+        foe_loc = move_down(2);
+      } else {
+        foe_loc = move_diagonal2_left();
+      }
+
     } else {
-       foe_loc = move_diagonal2_left();
+      if (decide_move % 3 == 0) {
+        foe_loc = move_diagonal_left();
+        foe_loc = move_down(3);
+      } else {
+        foe_loc = move_diagonal2_left();
+      }
     }
     return foe_loc;
   }
 
     Foe_Location return_location_right(int level) {
     int decide_move = rand();
-    if (level > 1) {
+
+    if (level == 1) {
       foe_loc = move_diagonal_right();
-    }
-    if (decide_move % 3 == 0) {
-      foe_loc = move_diagonal_right();
+
     } else {
-      foe_loc = move_diagonal_right();
+      if (decide_move % 3 == 0) {
+        foe_loc = move_diagonal_right();
+      } else {
+        foe_loc = move_diagonal_right();
+      }
     }
     return foe_loc;
   }
