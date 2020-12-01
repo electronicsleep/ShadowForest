@@ -5,10 +5,10 @@ Open Source Game created with C++ and SDL2
 How to play
 * Spacebar to start level
 * Arrow keys moves player
-* Space bar to cast spell
-* Destroy monsters before time is up
+* Space bar to attack
+* Destroy monsters before they move off screen
 
-Build / start
+Build / Start
 ```
 cd src
 make all
@@ -25,4 +25,3 @@ Todo
 Links
 
 https://www.libsdl.org/
-
