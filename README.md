@@ -13,24 +13,21 @@ Open Source Game created with C++ and SDL2
 ### Linux
 
 ```
-./setup.sh
+bash setup.sh
 ```
 
 ### MacOS
 
 ```
-./setup-mac.sh
+bash setup-mac.sh
 ```
 
-### Build
+### Build / Start
 ```
 cd src
 make all
-```
-
-### Start
-```
 ./ShadowForest
+```
 
 ### Todo
 * Mazes
