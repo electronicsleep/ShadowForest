@@ -17,6 +17,9 @@ using namespace std;
 
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 600;
+
+// static const char *DOZE_DREAM_MP3 = "Audio/Doze-Dream.mp3";
+
 const int debug = 0;
 
 void printMsg(string msg) {
@@ -48,12 +51,13 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y){
     SDL_RenderCopy(render, tex, NULL, &dst);
 }
 
-void checkLevel(int foes_destroyed, int &level, int &start_game) {
+void checkLevel(int foes_destroyed, int &level, int &start_game, bool &next_level) {
     if (foes_destroyed == 10 or foes_destroyed == 20) {
       level++;
       cout << "You have reached level: " << level << endl;
       cout << "Press spacebar to restart." << endl;
       start_game = 0;
+      next_level = true;
     }
 }
 
@@ -85,6 +89,7 @@ int main(int argc, char ** argv) {
 
     int start_game = 0;
     int game_over = 0;
+    bool next_level = false;
     int level = 1;
 
     // foe hit points
@@ -102,6 +107,11 @@ int main(int argc, char ** argv) {
         exit(1);
     }
     */
+
+    // Audio
+    // Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+    // Mix_Music *music = Mix_LoadMUS(DOZE_DREAM_MP3);
+    // Mix_PlayMusic(music, 1);
 
     SDL_Window *window;
 
@@ -146,6 +156,8 @@ int main(int argc, char ** argv) {
     SDL_Texture *bg = loadTexture("Images/background.bmp", render);
     SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", render);
     SDL_Texture *shadow_forest_game_over = loadTexture("Images/shadow-forest-game-over.bmp", render);
+    SDL_Texture *shadow_forest_next_level = loadTexture("Images/shadow-forest-next-level.bmp", render);
+
     SDL_Texture *wizard = loadTexture("Images/wizard.bmp", render);
     SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", render);
     SDL_Texture *wizard_top = loadTexture("Images/wizard-top.bmp", render);
@@ -166,6 +178,7 @@ int main(int argc, char ** argv) {
 
         if (game_over == 1) {
             start_game = 0;
+            next_level = false;
         }
 
         switch (event.type) {
@@ -176,7 +189,7 @@ int main(int argc, char ** argv) {
 
             case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = 1; game_over = 0; break;
+                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = 1; game_over = 0; next_level = false; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
                 case SDLK_LEFT:  x = x - 5; show_magic = ""; move_direction = "left"; break;
@@ -201,6 +214,9 @@ int main(int argc, char ** argv) {
         if (game_over == 1) {
           SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(render, shadow_forest_game_over, NULL, &shadow_forest_game_over_bmp);
+        } else if (next_level == true) {
+          SDL_Rect shadow_forest_next_level_bmp = { 0, 200, 300, 400 };
+          SDL_RenderCopy(render, shadow_forest_next_level, NULL, &shadow_forest_next_level_bmp);
         } else if (start_game == 0) {
           SDL_Rect shadow_forest_title_logo_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(render, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
@@ -273,7 +289,7 @@ int main(int argc, char ** argv) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
                         show_magic = "";
-                        checkLevel(foes_destroyed, level, start_game);
+                        checkLevel(foes_destroyed, level, start_game, next_level);
 
                         foe.reset_foe();
                         foe.health = 0;
@@ -291,7 +307,7 @@ int main(int argc, char ** argv) {
                         foes_destroyed++;
                         player.print_foes_destroyed(foes_destroyed);
                         show_magic = "";
-                        checkLevel(foes_destroyed, level, start_game);
+                        checkLevel(foes_destroyed, level, start_game, next_level);
 
                         foe2.reset_foe_right();
                         foe2.health = 0;
