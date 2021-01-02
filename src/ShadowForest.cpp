@@ -51,12 +51,12 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y){
     SDL_RenderCopy(render, tex, NULL, &dst);
 }
 
-void checkLevel(int foes_destroyed, int &level, int &start_game, bool &next_level) {
+void checkLevel(int foes_destroyed, int &level, bool &start_game, bool &next_level) {
     if (foes_destroyed == 10 or foes_destroyed == 20) {
       level++;
       cout << "You have reached level: " << level << endl;
       cout << "Press spacebar to restart." << endl;
-      start_game = 0;
+      start_game = false;
       next_level = true;
     }
 }
@@ -87,8 +87,8 @@ int main(int argc, char ** argv) {
     int loop = 0;
     bool quit = false;
 
-    int start_game = 0;
-    int game_over = 0;
+    bool start_game = false;
+    bool game_over = false;
     bool next_level = false;
     int level = 1;
 
@@ -100,18 +100,17 @@ int main(int argc, char ** argv) {
     SDL_Event event;
     TTF_Font* Sans;
 
-
     /*
+    // Audio
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-	printMsg("Failed to init SDl2");
+	printMsg("Failed to init SDL2 Audio");
         exit(1);
     }
-    */
 
-    // Audio
-    // Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-    // Mix_Music *music = Mix_LoadMUS(DOZE_DREAM_MP3);
-    // Mix_PlayMusic(music, 1);
+    Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+    Mix_Music *music = Mix_LoadMUS(DOZE_DREAM_MP3);
+    Mix_PlayMusic(music, 1);
+    */
 
     SDL_Window *window;
 
@@ -177,7 +176,7 @@ int main(int argc, char ** argv) {
         SDL_PollEvent(&event);
 
         if (game_over == 1) {
-            start_game = 0;
+            start_game = false;
             next_level = false;
         }
 
@@ -189,7 +188,7 @@ int main(int argc, char ** argv) {
 
             case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = 1; game_over = 0; next_level = false; break;
+                case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
                 case SDLK_LEFT:  x = x - 5; show_magic = ""; move_direction = "left"; break;
@@ -211,13 +210,13 @@ int main(int argc, char ** argv) {
         // Background
         SDL_RenderCopy(render, bg, NULL, NULL);
 
-        if (game_over == 1) {
+        if (game_over) {
           SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(render, shadow_forest_game_over, NULL, &shadow_forest_game_over_bmp);
         } else if (next_level == true) {
           SDL_Rect shadow_forest_next_level_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(render, shadow_forest_next_level, NULL, &shadow_forest_next_level_bmp);
-        } else if (start_game == 0) {
+        } else if (!start_game) {
           SDL_Rect shadow_forest_title_logo_bmp = { 0, 200, 300, 400 };
           SDL_RenderCopy(render, shadow_forest_title, NULL, &shadow_forest_title_logo_bmp);
         }
@@ -226,7 +225,7 @@ int main(int argc, char ** argv) {
             loop = 0;
         }
 
-        if (start_game == 1) {
+        if (start_game) {
 
             if (level == 2) {
                 hit_points=5;

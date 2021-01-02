@@ -44,7 +44,7 @@ class Player {
     cout << "Player experience is now: " << exp << endl;
   }
 
-  void update_health(int amount, int foes_missed, int foes_destroyed, int &game_over, int &level) {
+  void update_health(int amount, int &foes_missed, int &foes_destroyed, bool &game_over, int &level) {
     int score = 0;
     health = health - amount;
     cout << "Player health is now: " << health << endl;
@@ -69,10 +69,13 @@ class Player {
         cout << "**** Awesome score! " << score << endl;
       }
 
-      // reset game
+      cout << "Reset game stats." << endl;
       cout << "Press spacebar to restart." << endl;
-      game_over = 1;
+      game_over = true;
+      foes_missed = 0;
+      foes_destroyed = 0;
       health = 100;
+      level = 1;
    }
   }
 };
