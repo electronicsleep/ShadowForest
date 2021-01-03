@@ -18,6 +18,7 @@ using namespace std;
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 600;
 
+// Audio
 // static const char *DOZE_DREAM_MP3 = "Audio/Doze-Dream.mp3";
 
 const int debug = 0;
@@ -53,12 +54,22 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y){
 
 void checkLevel(int foes_destroyed, int &level, bool &start_game, bool &next_level) {
     if (foes_destroyed == 10 or foes_destroyed == 20) {
-      level++;
-      cout << "You have reached level: " << level << endl;
-      cout << "Press spacebar to restart." << endl;
-      start_game = false;
-      next_level = true;
+        level++;
+        cout << "You have reached level: " << level << endl;
+        cout << "Press spacebar to restart." << endl;
+        start_game = false;
+        next_level = true;
     }
+}
+
+int getHitPoints(int level) {
+    int hit_points = 5;
+    if (level == 2) {
+        hit_points=3;
+    } else if (level == 3) {
+        hit_points=1;
+    }
+    return hit_points;
 }
 
 int main(int argc, char ** argv) {
@@ -100,10 +111,11 @@ int main(int argc, char ** argv) {
     SDL_Event event;
     TTF_Font* Sans;
 
+
     /*
     // Audio
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-	printMsg("Failed to init SDL2 Audio");
+        printMsg("Failed to init SDL2 Audio");
         exit(1);
     }
 
@@ -227,28 +239,24 @@ int main(int argc, char ** argv) {
 
         if (start_game) {
 
-            if (level == 2) {
-                hit_points=5;
-            } else if (level == 3) {
-                hit_points=1;
-            }
+            hit_points = getHitPoints(level);
 
             // Foe1
             Foe::Foe_Location foe_loc1;
             foe_loc1 = foe.return_location_left(level);
             if (foe_loc1.x > 600 or foe_loc1.y > 800) {
-              foe_loc1 = foe.respawn_foe();
-              foes_missed++;
-              cout << "foes_missed: " << foes_missed << endl;
+                foe_loc1 = foe.respawn_foe();
+                foes_missed++;
+                cout << "foes_missed: " << foes_missed << endl;
             }
 
             // Foe2
             Foe::Foe_Location foe_loc2;
             foe_loc2 = foe2.return_location_right(level);
             if (foe_loc2.x < 0 or foe_loc2.y < 0) {
-              foe_loc2 = foe2.respawn_foe_right();
-              foes_missed++;
-              cout << "foes_missed: " << foes_missed << endl;
+                foe_loc2 = foe2.respawn_foe_right();
+                foes_missed++;
+                cout << "foes_missed: " << foes_missed << endl;
             }
 
             if (show_magic == "magic_sword") {
