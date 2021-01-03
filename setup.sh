@@ -8,4 +8,3 @@ apt-get install libsdl2-image-dev -y
 apt-get install libsdl2-mixer-dev -y
 apt-get install freeglut3-dev -y
 apt-get install libglew-dev -y
-apt-get install libsdl2-ttf-dev -y
