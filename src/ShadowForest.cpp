@@ -223,7 +223,7 @@ int main(int argc, char ** argv) {
         SDL_RenderClear(render);
 
         // Background
-        SDL_Rect shadow_forest_background_bmp = { bg_loc_x, bg_loc_y, 1600, 1600 };
+        SDL_Rect shadow_forest_background_bmp = { bg_loc_x, bg_loc_y, 1200, 1200 };
         SDL_RenderCopy(render, bg, NULL, &shadow_forest_background_bmp);
 
         if (game_over) {
