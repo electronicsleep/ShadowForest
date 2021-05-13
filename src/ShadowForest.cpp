@@ -88,6 +88,9 @@ int main(int argc, char ** argv) {
     int time = 0;
     string show_magic = "";
 
+    int bg_loc_x = 0;
+    int bg_loc_y = 0;
+
     int x = 200;
     int y = 200;
 
@@ -203,10 +206,10 @@ int main(int argc, char ** argv) {
                 case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
                 case SDLK_TAB:  show_magic = "magic_shield"; break;
 
-                case SDLK_LEFT:  x = x - 5; show_magic = ""; move_direction = "left"; break;
-                case SDLK_RIGHT: x = x + 5; show_magic = ""; move_direction = "right"; break;
-                case SDLK_UP:    y = y - 5; show_magic = ""; move_direction = "up"; break;
-                case SDLK_DOWN:  y = y + 5; show_magic = ""; move_direction = "down";
+                case SDLK_LEFT:  x -= 5; bg_loc_x += 2; show_magic = ""; move_direction = "left"; break;
+                case SDLK_RIGHT: x += 5; bg_loc_x -= 2; show_magic = ""; move_direction = "right"; break;
+                case SDLK_UP:    y -= 5; bg_loc_y += 2; move_direction = "up"; break;
+                case SDLK_DOWN:  y += 5; bg_loc_y -= 2; move_direction = "down";
             }
             break;
         }
@@ -220,7 +223,8 @@ int main(int argc, char ** argv) {
         SDL_RenderClear(render);
 
         // Background
-        SDL_RenderCopy(render, bg, NULL, NULL);
+        SDL_Rect shadow_forest_background_bmp = { bg_loc_x, bg_loc_y, 1600, 1600 };
+        SDL_RenderCopy(render, bg, NULL, &shadow_forest_background_bmp);
 
         if (game_over) {
           SDL_Rect shadow_forest_game_over_bmp = { 0, 200, 300, 400 };
