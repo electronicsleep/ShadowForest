@@ -5,7 +5,7 @@
 using namespace std;
 
 class Game {
-public:
+  public:
 
   void print_name(const char* name) {
     cout << "Game: " << name << endl;
@@ -52,5 +52,4 @@ public:
 
     SDL_FreeSurface(surfaceMessage);
   }
-
 };

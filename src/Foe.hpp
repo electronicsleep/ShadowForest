@@ -5,45 +5,45 @@
 using namespace std;
 
 class Foe {
- public:
+  public:
 
-  struct Foe_Location {
-    int x, y = 0;
-  };
+    struct Foe_Location {
+      int x, y = 0;
+    };
 
-  Foe_Location foe_loc;
-  string player_name = "Foe1";
-  string player_type = "Zombie";
-  int health = 100;
-  int exp = 0;
-  int str = 0;
-  int dex = 0;
-  int intelligence = 0;
+    Foe_Location foe_loc;
+    string player_name = "Foe1";
+    string player_type = "Zombie";
+    int health = 100;
+    int exp = 0;
+    int str = 0;
+    int dex = 0;
+    int intelligence = 0;
 
   void is_alive(Foe* foe) {
     cout << "Foe is alive";
   }
 
   Foe_Location reset_foe() {
-   foe_loc = respawn_foe();
-   return foe_loc;
+    foe_loc = respawn_foe();
+    return foe_loc;
   }
 
   Foe_Location reset_foe_right() {
-   foe_loc = respawn_foe_right();
-   return foe_loc;
+    foe_loc = respawn_foe_right();
+    return foe_loc;
   }
 
   Foe_Location respawn_foe() {
-   foe_loc.x = rand()%400;
-   foe_loc.y = rand()%200;
-   return foe_loc;
+    foe_loc.x = rand()%400;
+    foe_loc.y = rand()%200;
+    return foe_loc;
   }
 
   Foe_Location respawn_foe_right() {
-   foe_loc.x = rand()%600;
-   foe_loc.y = rand()%800;
-   return foe_loc;
+    foe_loc.x = rand()%600;
+    foe_loc.y = rand()%800;
+    return foe_loc;
   }
 
   Foe_Location return_location_left(int level) {
@@ -70,7 +70,7 @@ class Foe {
     return foe_loc;
   }
 
-    Foe_Location return_location_right(int level) {
+  Foe_Location return_location_right(int level) {
     int decide_move = rand();
 
     if (level == 1) {
@@ -137,10 +137,9 @@ class Foe {
     cout << "Foe health is now: " << health << endl;
 
     if (health < 0) {
-        cout << "Foe has died... " << endl;
-        return 1;
-   }
-  return 0;
+      cout << "Foe has died... " << endl;
+      return 1;
+    }
+    return 0;
   }
-
 };

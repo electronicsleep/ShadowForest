@@ -5,14 +5,14 @@
 using namespace std;
 
 class Player {
- public:
-  string player_name = "Logan";
-  string player_type = "Wizard";
-  int health = 100;
-  int exp = 0;
-  int str = 0;
-  int dex = 0;
-  int intelligence = 0;
+  public:
+    string player_name = "Logan";
+    string player_type = "Wizard";
+    int health = 100;
+    int exp = 0;
+    int str = 0;
+    int dex = 0;
+    int intelligence = 0;
 
   void is_alive(Player* player) {
     cout << "Player is alive";
@@ -76,6 +76,6 @@ class Player {
       foes_destroyed = 0;
       health = 100;
       level = 1;
-   }
+    }
   }
 };
