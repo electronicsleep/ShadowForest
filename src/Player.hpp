@@ -69,6 +69,7 @@ class Player {
         cout << "**** Awesome score! " << score << endl;
       }
 
+      cout << "Game Over." << endl;
       cout << "Reset game stats." << endl;
       cout << "Press spacebar to restart." << endl;
       game_over = true;

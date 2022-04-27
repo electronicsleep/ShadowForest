@@ -11,7 +11,7 @@ class Game {
     cout << "Game: " << name << endl;
   }
 
-  void update_hud(SDL_Renderer* render, TTF_Font* Sans, int health, int level) {
+  void update_hud(SDL_Renderer* render, TTF_Font* Sans, int health, int level, int score) {
     int SDL_Result = 0;
     char hud_txt[80];
     int texW = 0;
@@ -19,11 +19,14 @@ class Game {
 
     std::string health_string = std::to_string(health);
     std::string level_string = std::to_string(level);
+    std::string score_string = std::to_string(score);
 
     const char *health_title = "Health: ";
     const char *health_value = health_string.c_str();
     const char *level_title = " Level: ";
     const char *level_value = level_string.c_str();
+    const char *score_title = " Score: ";
+    const char *score_value = score_string.c_str();
 
     SDL_Color White = {255, 255, 255};
     SDL_Color Red = {255, 0, 0};
@@ -32,6 +35,8 @@ class Game {
     strcat(hud_txt, health_value);
     strcat(hud_txt, level_title);
     strcat(hud_txt, level_value);
+    strcat(hud_txt, score_title);
+    strcat(hud_txt, score_value);
 
     SDL_Surface* surfaceMessage;
     if (health > 50) {
