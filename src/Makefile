@@ -1,7 +1,7 @@
 
-all: test
+all: build
 
-test: run1
+test: test
 
-run1:
+build:
 	g++ ShadowForest.cpp -o ShadowForest -std=c++0x -Wall -lSDL2main -lSDL2 -lSDL2_ttf

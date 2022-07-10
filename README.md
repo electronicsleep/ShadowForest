@@ -26,8 +26,7 @@ bash setup-mac.sh
 
 ### Build / Start
 ```
-cd src
-make all
+cd src && make
 ./ShadowForest
 ```
 
