@@ -15,13 +15,14 @@ Open Source Game created with C++ and SDL2
 ### Linux
 
 ```
-bash setup.sh
+apt-get install -y make g++ libsdl2-2.0-0 libsdl2-dev libsdl2-ttf-dev 
+apt-get install -y libsdl2-image-dev libsdl2-mixer-dev freeglut3-dev libglew-dev
 ```
 
 ### MacOS
 
 ```
-bash setup-mac.sh
+brew install SDL2 SDL2_Image SDL2_Mixer SDL2_ttf
 ```
 
 ### Build / Start
