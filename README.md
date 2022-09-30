@@ -27,8 +27,8 @@ brew install SDL2 SDL2_Image SDL2_Mixer SDL2_ttf
 
 ### Build / Start
 ```
-cd src && make
-./ShadowForest
+make
+make run
 ```
 
 * entity is a moving object in the game
