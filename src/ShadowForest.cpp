@@ -44,7 +44,7 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *render) {
   return texture;
 }
 
-void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y){
+void renderTexture(SDL_Texture *tex, SDL_Renderer *render, int x, int y) {
   SDL_Rect dst;
   dst.x = x;
   dst.y = y;
@@ -172,7 +172,6 @@ int main(int argc, char ** argv) {
 
   SDL_Texture *wizard = loadTexture("Images/wizard.bmp", render);
   SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", render);
-  SDL_Texture *wizard_top = loadTexture("Images/wizard-top.bmp", render);
   SDL_Texture *zombie = loadTexture("Images/zombie.bmp", render);
   SDL_Texture *zombie_right = loadTexture("Images/zombie-right.bmp", render);
   SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", render);
@@ -203,10 +202,10 @@ int main(int argc, char ** argv) {
         switch (event.key.keysym.sym) {
           case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
           case SDLK_TAB:  show_magic = "magic_shield"; break;
-          case SDLK_LEFT:  x -= 5; bg_loc_x += 2; show_magic = ""; move_direction = "left"; break;
-          case SDLK_RIGHT: x += 5; bg_loc_x -= 2; show_magic = ""; move_direction = "right"; break;
-          case SDLK_UP:    y -= 5; bg_loc_y += 2; move_direction = "up"; break;
-          case SDLK_DOWN:  y += 5; bg_loc_y -= 2; move_direction = "down";
+          case SDLK_LEFT:  x -= 25; bg_loc_x += 2; show_magic = ""; move_direction = "left"; break;
+          case SDLK_RIGHT: x += 25; bg_loc_x -= 2; show_magic = ""; move_direction = "right"; break;
+          case SDLK_UP:    y -= 25; bg_loc_y += 2; move_direction = "up"; break;
+          case SDLK_DOWN:  y += 25; bg_loc_y -= 2; move_direction = "down";
         }
       break;
     }
@@ -336,8 +335,8 @@ int main(int argc, char ** argv) {
               SDL_Rect wizard_right_bmp = { x, y, 64, 64 };
               SDL_RenderCopy(render, wizard_right, NULL, &wizard_right_bmp);
             } else {
-              SDL_Rect wizard_top_bmp = { x, y, 64, 64 };
-              SDL_RenderCopy(render, wizard_top, NULL, &wizard_top_bmp);
+              SDL_Rect wizard_right_bmp = { x, y, 64, 64 };
+              SDL_RenderCopy(render, wizard_right, NULL, &wizard_right_bmp);
             }
           }
 
