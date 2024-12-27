@@ -96,7 +96,9 @@ int main(int argc, char ** argv) {
 
   int weapon_offset = 80;
   string move_direction = "left";
-  //string hud_text = "start";
+  string assets = "./assets/";
+  string font = "./assets/OpenSans-Regular.ttf";
+  //string hud_text = "start"
 
   int loop = 0;
   bool quit = false;
@@ -139,13 +141,13 @@ int main(int argc, char ** argv) {
     SDL_WINDOW_OPENGL
   );
 
-  if(TTF_Init() < 0) {
+  if (TTF_Init() < 0) {
     printf("TTF Init failed: %s\n", SDL_GetError());
     SDL_Quit();
     return 1;
   } else {
     printf("TTF Init ok\n");
-    Sans = TTF_OpenFont("OpenSans-Regular.ttf", 20);
+    Sans = TTF_OpenFont(font.c_str(), 20);
     printf("OpenFont status: %s\n", SDL_GetError());
   }
 
@@ -165,25 +167,24 @@ int main(int argc, char ** argv) {
     return 1;
   }
 
-  SDL_Texture *bg = loadTexture("Images/background.bmp", render);
-  SDL_Texture *shadow_forest_title = loadTexture("Images/shadow-forest-title.bmp", render);
-  SDL_Texture *shadow_forest_game_over = loadTexture("Images/shadow-forest-game-over.bmp", render);
-  SDL_Texture *shadow_forest_next_level = loadTexture("Images/shadow-forest-next-level.bmp", render);
+  SDL_Texture *bg = loadTexture(assets + "background.bmp", render);
+  SDL_Texture *shadow_forest_title = loadTexture(assets + "shadow-forest-title.bmp", render);
+  SDL_Texture *shadow_forest_game_over = loadTexture(assets + "shadow-forest-game-over.bmp", render);
+  SDL_Texture *shadow_forest_next_level = loadTexture(assets + "shadow-forest-next-level.bmp", render);
+  SDL_Texture *wizard = loadTexture(assets + "wizard.bmp", render);
+  SDL_Texture *wizard_right = loadTexture(assets + "wizard-right.bmp", render);
+  SDL_Texture *zombie = loadTexture(assets + "zombie.bmp", render);
+  SDL_Texture *zombie_right = loadTexture(assets + "zombie-right.bmp", render);
+  SDL_Texture *wizard_cast = loadTexture(assets + "wizard-cast.bmp", render);
+  SDL_Texture *magic_sword_left = loadTexture(assets + "magic-sword-left.bmp", render);
+  SDL_Texture *magic_sword_right = loadTexture(assets + "magic-sword-right.bmp", render);
+  SDL_Texture *magic_sword_up = loadTexture(assets + "magic-sword-up.bmp", render);
+  SDL_Texture *magic_sword_down = loadTexture(assets + "magic-sword-down.bmp", render);
+  SDL_Texture *magic_shield = loadTexture(assets + "magic-shield.bmp", render);
+  SDL_Texture *damage = loadTexture(assets + "damage.bmp", render);
+  SDL_Texture *warning = loadTexture(assets + "warning.bmp", render);
 
-  SDL_Texture *wizard = loadTexture("Images/wizard.bmp", render);
-  SDL_Texture *wizard_right = loadTexture("Images/wizard-right.bmp", render);
-  SDL_Texture *zombie = loadTexture("Images/zombie.bmp", render);
-  SDL_Texture *zombie_right = loadTexture("Images/zombie-right.bmp", render);
-  SDL_Texture *wizard_cast = loadTexture("Images/wizard-cast.bmp", render);
-  SDL_Texture *magic_sword_left = loadTexture("Images/magic-sword-left.bmp", render);
-  SDL_Texture *magic_sword_right = loadTexture("Images/magic-sword-right.bmp", render);
-  SDL_Texture *magic_sword_up = loadTexture("Images/magic-sword-up.bmp", render);
-  SDL_Texture *magic_sword_down = loadTexture("Images/magic-sword-down.bmp", render);
-  SDL_Texture *magic_shield = loadTexture("Images/magic-shield.bmp", render);
-  SDL_Texture *damage = loadTexture("Images/damage.bmp", render);
-  SDL_Texture *warning = loadTexture("Images/warning.bmp", render);
-
-  while (!quit) {
+  while(!quit) {
     SDL_Delay(1);
     SDL_PollEvent(&event);
 
@@ -192,7 +193,7 @@ int main(int argc, char ** argv) {
       next_level = false;
     }
 
-    switch (event.type) {
+    switch(event.type) {
       case SDL_QUIT:
         quit = true;
         printMsg("QUIT");

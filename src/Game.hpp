@@ -52,7 +52,7 @@ class Game {
     SDL_Result = SDL_RenderCopy(render, Message, NULL, &dstrect);
 
     if (SDL_Result < 0) {
-    SDL_Quit();
+        SDL_Quit();
     }
 
     SDL_FreeSurface(surfaceMessage);
