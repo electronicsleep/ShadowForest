@@ -72,7 +72,7 @@ int getHitPoints(int level) {
   return hit_points;
 }
 
-int main(int argc, char ** argv) {
+int main() {
   Game game;
   Player player;
   Foe foe;
@@ -85,7 +85,6 @@ int main(int argc, char ** argv) {
   foe2.print_name("Zombie2");
   int foes_destroyed = 0;
   int foes_missed = 0;
-  int time = 0;
   string show_magic = "";
 
   int bg_loc_x = 0;
@@ -366,7 +365,6 @@ int main(int argc, char ** argv) {
 
       } // End start game
 
-    time++;
     SDL_RenderPresent(render);
 
   } // End run game
