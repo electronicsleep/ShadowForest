@@ -28,8 +28,8 @@ class Game {
     const char *score_title = " Score: ";
     const char *score_value = score_string.c_str();
 
-    SDL_Color White = {255, 255, 255};
-    SDL_Color Red = {255, 0, 0};
+    SDL_Color White = {255, 255, 255, 0};
+    SDL_Color Red = {255, 0, 0, 0};
 
     strcpy(hud_txt, health_title);
     strcat(hud_txt, health_value);

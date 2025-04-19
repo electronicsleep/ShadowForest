@@ -20,10 +20,6 @@ class Foe {
     int dex = 0;
     int intelligence = 0;
 
-  void is_alive(Foe* foe) {
-    cout << "Foe is alive";
-  }
-
   Foe_Location reset_foe() {
     foe_loc = respawn_foe();
     return foe_loc;

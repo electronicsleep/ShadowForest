@@ -14,10 +14,6 @@ class Player {
     int dex = 0;
     int intelligence = 0;
 
-  void is_alive(Player* player) {
-    cout << "Player is alive";
-  }
-
   int get_health() {
     return health;
   }
