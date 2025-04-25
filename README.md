@@ -30,13 +30,13 @@ make
 make run
 ```
 
-* entity is a moving object in the game
-
 ### Todo
 * Mazes
 * Animation
+* Items
+* Special stats
 * High scores
-* NPC
+* NPC and dialog
 * Chests/weapons
 * Hero types
 * Enemy types
