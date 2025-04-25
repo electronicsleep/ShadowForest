@@ -81,8 +81,8 @@ int main() {
   foe2.set_location(100, 100);
   game.print_name("Shadow Forest");
   player.print_name("Logan");
-  foe.print_name("Zombie1");
-  foe2.print_name("Zombie2");
+  foe.print_name("Squid1");
+  foe2.print_name("Squid2");
   int foes_destroyed = 0;
   int foes_missed = 0;
   string show_magic = "";
@@ -172,8 +172,7 @@ int main() {
   SDL_Texture *shadow_forest_next_level = loadTexture(assets + "shadow-forest-next-level.bmp", render);
   SDL_Texture *wizard = loadTexture(assets + "wizard.bmp", render);
   SDL_Texture *wizard_right = loadTexture(assets + "wizard-right.bmp", render);
-  SDL_Texture *zombie = loadTexture(assets + "zombie.bmp", render);
-  SDL_Texture *zombie_right = loadTexture(assets + "zombie-right.bmp", render);
+  SDL_Texture *squid = loadTexture(assets + "squid.bmp", render);
   SDL_Texture *wizard_cast = loadTexture(assets + "wizard-cast.bmp", render);
   SDL_Texture *magic_sword_left = loadTexture(assets + "magic-sword-left.bmp", render);
   SDL_Texture *magic_sword_right = loadTexture(assets + "magic-sword-right.bmp", render);
@@ -182,6 +181,7 @@ int main() {
   SDL_Texture *magic_shield = loadTexture(assets + "magic-shield.bmp", render);
   SDL_Texture *damage = loadTexture(assets + "damage.bmp", render);
   SDL_Texture *warning = loadTexture(assets + "warning.bmp", render);
+  SDL_Texture *chest = loadTexture(assets + "chest.bmp", render);
 
   while(!quit) {
     SDL_Delay(1);
@@ -202,10 +202,10 @@ int main() {
         switch (event.key.keysym.sym) {
           case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
           case SDLK_TAB:  show_magic = "magic_shield"; break;
-          case SDLK_LEFT:  x -= 25; bg_loc_x += 2; show_magic = ""; move_direction = "left"; break;
-          case SDLK_RIGHT: x += 25; bg_loc_x -= 2; show_magic = ""; move_direction = "right"; break;
-          case SDLK_UP:    y -= 25; bg_loc_y += 2; move_direction = "up"; break;
-          case SDLK_DOWN:  y += 25; bg_loc_y -= 2; move_direction = "down";
+          case SDLK_LEFT:  x -= 10; show_magic = ""; move_direction = "left"; break;
+          case SDLK_RIGHT: x += 10; show_magic = ""; move_direction = "right"; break;
+          case SDLK_UP:    y -= 10; move_direction = "up"; break;
+          case SDLK_DOWN:  y += 10; move_direction = "down";
         }
       break;
     }
@@ -257,6 +257,8 @@ int main() {
           foes_missed++;
           cout << "foes_missed: " << foes_missed << endl;
         }
+
+        renderTexture(chest, render, 100, 100);
 
         if (show_magic == "magic_sword") {
           // Wizard Cast
@@ -340,11 +342,11 @@ int main() {
             }
           }
 
-          SDL_Rect zombie1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
-          SDL_RenderCopy(render, zombie, NULL, &zombie1_bmp);
+          SDL_Rect squid1_bmp = { foe_loc1.x, foe_loc1.y, 64, 64 };
+          SDL_RenderCopy(render, squid, NULL, &squid1_bmp);
 
-          SDL_Rect zombie_right_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
-          SDL_RenderCopy(render, zombie_right, NULL, &zombie_right_bmp);
+          SDL_Rect squid2_bmp = { foe_loc2.x, foe_loc2.y, 64, 64 };
+          SDL_RenderCopy(render, squid, NULL, &squid2_bmp);
 
           if (foe_loc2.x < x + 50 && foe_loc2.y < y + 50 && foe_loc2.x > x - 50 && foe_loc2.y > y - 50) {
             cout << " **** damage player ***" << endl;
