@@ -202,10 +202,10 @@ int main() {
         switch (event.key.keysym.sym) {
           case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
           case SDLK_TAB:  show_magic = "magic_shield"; break;
-          case SDLK_LEFT:  x -= 10; show_magic = ""; move_direction = "left"; break;
-          case SDLK_RIGHT: x += 10; show_magic = ""; move_direction = "right"; break;
-          case SDLK_UP:    y -= 10; move_direction = "up"; break;
-          case SDLK_DOWN:  y += 10; move_direction = "down";
+          case SDLK_LEFT:  x -= 20; show_magic = ""; move_direction = "left"; break;
+          case SDLK_RIGHT: x += 20; show_magic = ""; move_direction = "right"; break;
+          case SDLK_UP:    y -= 20; move_direction = "up"; break;
+          case SDLK_DOWN:  y += 20; move_direction = "down";
         }
       break;
     }
