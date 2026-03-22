@@ -17,6 +17,8 @@ using namespace std;
 
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 600;
+const int PLAYER_SIZE   = 64;
+const float PLAYER_SPEED = 200.0f;
 
 // Audio
 // static const char *DOZE_DREAM_MP3 = "Audio/Doze-Dream.mp3";
@@ -102,6 +104,7 @@ int main() {
   int loop = 0;
   bool quit = false;
   bool keys[SDL_NUM_SCANCODES] = {false};
+  Uint32 lastTime = SDL_GetTicks();
 
   bool start_game = false;
   bool game_over = false;
@@ -185,7 +188,10 @@ int main() {
   SDL_Texture *chest = loadTexture(assets + "chest.bmp", render);
 
   while(!quit) {
-    SDL_Delay(1);
+    Uint32 currentTime = SDL_GetTicks();
+    float deltaTime = (currentTime - lastTime) / 1000.0f;
+    lastTime = currentTime;
+
     SDL_PollEvent(&event);
 
     if (game_over == 1) {
@@ -213,10 +219,15 @@ int main() {
     }
 
     if (start_game && !game_over) {
-      if (keys[SDL_SCANCODE_LEFT])  { x -= 2; show_magic = ""; move_direction = "left"; }
-      if (keys[SDL_SCANCODE_RIGHT]) { x += 2; show_magic = ""; move_direction = "right"; }
-      if (keys[SDL_SCANCODE_UP])    { y -= 2; show_magic = ""; move_direction = "up"; }
-      if (keys[SDL_SCANCODE_DOWN])  { y += 2; show_magic = ""; move_direction = "down"; }
+      int move = (int)(PLAYER_SPEED * deltaTime);
+      if (keys[SDL_SCANCODE_LEFT])  { x -= move; show_magic = ""; move_direction = "left"; }
+      if (keys[SDL_SCANCODE_RIGHT]) { x += move; show_magic = ""; move_direction = "right"; }
+      if (keys[SDL_SCANCODE_UP])    { y -= move; show_magic = ""; move_direction = "up"; }
+      if (keys[SDL_SCANCODE_DOWN])  { y += move; show_magic = ""; move_direction = "down"; }
+
+      // Clamp player position to screen bounds
+      x = std::max(0, std::min(x, SCREEN_WIDTH - PLAYER_SIZE));
+      y = std::max(0, std::min(y, SCREEN_HEIGHT - PLAYER_SIZE));
     }
 
       loop++;
