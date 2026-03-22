@@ -213,10 +213,10 @@ int main() {
     }
 
     if (start_game && !game_over) {
-      if (keys[SDL_SCANCODE_LEFT])  { x -= 5; show_magic = ""; move_direction = "left"; }
-      if (keys[SDL_SCANCODE_RIGHT]) { x += 5; show_magic = ""; move_direction = "right"; }
-      if (keys[SDL_SCANCODE_UP])    { y -= 5; show_magic = ""; move_direction = "up"; }
-      if (keys[SDL_SCANCODE_DOWN])  { y += 5; show_magic = ""; move_direction = "down"; }
+      if (keys[SDL_SCANCODE_LEFT])  { x -= 2; show_magic = ""; move_direction = "left"; }
+      if (keys[SDL_SCANCODE_RIGHT]) { x += 2; show_magic = ""; move_direction = "right"; }
+      if (keys[SDL_SCANCODE_UP])    { y -= 2; show_magic = ""; move_direction = "up"; }
+      if (keys[SDL_SCANCODE_DOWN])  { y += 2; show_magic = ""; move_direction = "down"; }
     }
 
       loop++;
