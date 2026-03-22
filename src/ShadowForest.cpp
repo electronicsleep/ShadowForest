@@ -101,6 +101,7 @@ int main() {
 
   int loop = 0;
   bool quit = false;
+  bool keys[SDL_NUM_SCANCODES] = {false};
 
   bool start_game = false;
   bool game_over = false;
@@ -199,15 +200,23 @@ int main() {
         break;
 
       case SDL_KEYDOWN:
+        keys[event.key.keysym.scancode] = true;
         switch (event.key.keysym.sym) {
-          case SDLK_SPACE:  show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
-          case SDLK_TAB:  show_magic = "magic_shield"; break;
-          case SDLK_LEFT:  x -= 20; show_magic = ""; move_direction = "left"; break;
-          case SDLK_RIGHT: x += 20; show_magic = ""; move_direction = "right"; break;
-          case SDLK_UP:    y -= 20; move_direction = "up"; break;
-          case SDLK_DOWN:  y += 20; move_direction = "down";
+          case SDLK_SPACE: show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
+          case SDLK_TAB:   show_magic = "magic_shield"; break;
         }
-      break;
+        break;
+
+      case SDL_KEYUP:
+        keys[event.key.keysym.scancode] = false;
+        break;
+    }
+
+    if (start_game && !game_over) {
+      if (keys[SDL_SCANCODE_LEFT])  { x -= 5; show_magic = ""; move_direction = "left"; }
+      if (keys[SDL_SCANCODE_RIGHT]) { x += 5; show_magic = ""; move_direction = "right"; }
+      if (keys[SDL_SCANCODE_UP])    { y -= 5; show_magic = ""; move_direction = "up"; }
+      if (keys[SDL_SCANCODE_DOWN])  { y += 5; show_magic = ""; move_direction = "down"; }
     }
 
       loop++;
