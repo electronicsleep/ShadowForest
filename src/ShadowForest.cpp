@@ -208,22 +208,29 @@ int main() {
       case SDL_KEYDOWN:
         keys[event.key.keysym.scancode] = true;
         switch (event.key.keysym.sym) {
-          case SDLK_SPACE: show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false; break;
+          case SDLK_SPACE:
+            if (event.key.repeat == 0) {
+              show_magic = "magic_sword"; start_game = true; game_over = false; next_level = false;
+            }
+            break;
           case SDLK_TAB:   show_magic = "magic_shield"; break;
         }
         break;
 
       case SDL_KEYUP:
         keys[event.key.keysym.scancode] = false;
+        if (event.key.keysym.sym == SDLK_SPACE) {
+          show_magic = "";
+        }
         break;
     }
 
     if (start_game && !game_over) {
       int move = (int)(PLAYER_SPEED * deltaTime);
-      if (keys[SDL_SCANCODE_LEFT])  { x -= move; show_magic = ""; move_direction = "left"; }
-      if (keys[SDL_SCANCODE_RIGHT]) { x += move; show_magic = ""; move_direction = "right"; }
-      if (keys[SDL_SCANCODE_UP])    { y -= move; show_magic = ""; move_direction = "up"; }
-      if (keys[SDL_SCANCODE_DOWN])  { y += move; show_magic = ""; move_direction = "down"; }
+      if (keys[SDL_SCANCODE_LEFT])  { x -= move; move_direction = "left"; }
+      if (keys[SDL_SCANCODE_RIGHT]) { x += move; move_direction = "right"; }
+      if (keys[SDL_SCANCODE_UP])    { y -= move; move_direction = "up"; }
+      if (keys[SDL_SCANCODE_DOWN])  { y += move; move_direction = "down"; }
 
       // Clamp player position to screen bounds
       x = std::max(0, std::min(x, SCREEN_WIDTH - PLAYER_SIZE));

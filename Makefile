@@ -11,5 +11,5 @@ Linux:
 Darwin:
 	g++ src/ShadowForest.cpp -o ShadowForest -std=c++17 -I/opt/homebrew/include -L/opt/homebrew/lib -Wall -Wextra -lSDL2main -lSDL2 -lSDL2_ttf
 
-run:
+test:
 	./ShadowForest
