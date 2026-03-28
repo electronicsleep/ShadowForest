@@ -20,25 +20,43 @@ class Foe {
     int dex = 0;
     int intelligence = 0;
 
-  Foe_Location reset_foe() {
-    foe_loc = respawn_foe();
+  Foe_Location reset_foe(int player_x = -1, int player_y = -1) {
+    foe_loc = respawn_foe(player_x, player_y);
     return foe_loc;
   }
 
-  Foe_Location reset_foe_right() {
-    foe_loc = respawn_foe_right();
+  Foe_Location reset_foe_right(int player_x = -1, int player_y = -1) {
+    foe_loc = respawn_foe_right(player_x, player_y);
     return foe_loc;
   }
 
-  Foe_Location respawn_foe() {
-    foe_loc.x = rand()%400;
-    foe_loc.y = rand()%200;
+  Foe_Location respawn_foe(int player_x = -1, int player_y = -1) {
+    const int MIN_SPAWN_DIST = 200;
+    int attempts = 0;
+    do {
+      foe_loc.x = rand() % 400;
+      foe_loc.y = rand() % 200;
+      attempts++;
+      if (player_x < 0 || player_y < 0) break;
+      int dx = foe_loc.x - player_x;
+      int dy = foe_loc.y - player_y;
+      if (dx * dx + dy * dy >= MIN_SPAWN_DIST * MIN_SPAWN_DIST) break;
+    } while (attempts < 10);
     return foe_loc;
   }
 
-  Foe_Location respawn_foe_right() {
-    foe_loc.x = rand()%600;
-    foe_loc.y = rand()%800;
+  Foe_Location respawn_foe_right(int player_x = -1, int player_y = -1) {
+    const int MIN_SPAWN_DIST = 200;
+    int attempts = 0;
+    do {
+      foe_loc.x = rand() % 600;
+      foe_loc.y = rand() % 800;
+      attempts++;
+      if (player_x < 0 || player_y < 0) break;
+      int dx = foe_loc.x - player_x;
+      int dy = foe_loc.y - player_y;
+      if (dx * dx + dy * dy >= MIN_SPAWN_DIST * MIN_SPAWN_DIST) break;
+    } while (attempts < 10);
     return foe_loc;
   }
 

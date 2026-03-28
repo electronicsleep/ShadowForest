@@ -271,7 +271,7 @@ int main() {
         Foe::Foe_Location foe_loc1;
         foe_loc1 = foe.return_location_left(level);
         if (foe_loc1.x > 600 or foe_loc1.y > 800) {
-          foe_loc1 = foe.respawn_foe();
+          foe_loc1 = foe.respawn_foe(x, y);
           foes_missed++;
           cout << "foes_missed: " << foes_missed << endl;
         }
@@ -280,7 +280,7 @@ int main() {
         Foe::Foe_Location foe_loc2;
         foe_loc2 = foe2.return_location_right(level);
         if (foe_loc2.x < 0 or foe_loc2.y < 0) {
-          foe_loc2 = foe2.respawn_foe_right();
+          foe_loc2 = foe2.respawn_foe_right(x, y);
           foes_missed++;
           cout << "foes_missed: " << foes_missed << endl;
         }
@@ -326,7 +326,7 @@ int main() {
               show_magic = "";
               checkLevel(foes_destroyed, level, start_game, next_level);
 
-              foe.reset_foe();
+              foe.reset_foe(x, y);
               foe.health = 0;
             }
           }
@@ -343,7 +343,7 @@ int main() {
                 player.print_foes_destroyed(foes_destroyed);
                 show_magic = "";
                 checkLevel(foes_destroyed, level, start_game, next_level);
-                foe2.reset_foe_right();
+                foe2.reset_foe_right(x, y);
                 foe2.health = 0;
               }
           }
